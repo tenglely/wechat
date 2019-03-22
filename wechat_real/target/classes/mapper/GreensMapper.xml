@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wechat.dao.GreensMapper">
+  <resultMap id="BaseResultMap" type="com.wechat.bean.Greens">
+    <id column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="gname" jdbcType="VARCHAR" property="gname" />
+    <result column="gstyle" jdbcType="VARCHAR" property="gstyle" />
+    <result column="glabel" jdbcType="VARCHAR" property="glabel" />
+    <result column="ghits" jdbcType="INTEGER" property="ghits" />
+    <result column="gwriter" jdbcType="VARCHAR" property="gwriter" />
+    <result column="gdate" jdbcType="VARCHAR" property="gdate" />
+    <result column="gneed" jdbcType="VARCHAR" property="gneed" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    gid, gname, gstyle, glabel, ghits, gwriter, gdate, gneed
+  </sql>
+  <select id="selectByExample" parameterType="com.wechat.bean.GreensExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from greens
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from greens
+    where gid = #{gid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from greens
+    where gid = #{gid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wechat.bean.GreensExample">
+    delete from greens
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wechat.bean.Greens">
+    insert into greens (gid, gname, gstyle, 
+      glabel, ghits, gwriter, 
+      gdate, gneed)
+    values (#{gid,jdbcType=INTEGER}, #{gname,jdbcType=VARCHAR}, #{gstyle,jdbcType=VARCHAR}, 
+      #{glabel,jdbcType=VARCHAR}, #{ghits,jdbcType=INTEGER}, #{gwriter,jdbcType=VARCHAR}, 
+      #{gdate,jdbcType=VARCHAR}, #{gneed,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.bean.Greens">
+    insert into greens
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gid != null">
+        gid,
+      </if>
+      <if test="gname != null">
+        gname,
+      </if>
+      <if test="gstyle != null">
+        gstyle,
+      </if>
+      <if test="glabel != null">
+        glabel,
+      </if>
+      <if test="ghits != null">
+        ghits,
+      </if>
+      <if test="gwriter != null">
+        gwriter,
+      </if>
+      <if test="gdate != null">
+        gdate,
+      </if>
+      <if test="gneed != null">
+        gneed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gid != null">
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="gname != null">
+        #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="gstyle != null">
+        #{gstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="glabel != null">
+        #{glabel,jdbcType=VARCHAR},
+      </if>
+      <if test="ghits != null">
+        #{ghits,jdbcType=INTEGER},
+      </if>
+      <if test="gwriter != null">
+        #{gwriter,jdbcType=VARCHAR},
+      </if>
+      <if test="gdate != null">
+        #{gdate,jdbcType=VARCHAR},
+      </if>
+      <if test="gneed != null">
+        #{gneed,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wechat.bean.GreensExample" resultType="java.lang.Long">
+    select count(*) from greens
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update greens
+    <set>
+      <if test="record.gid != null">
+        gid = #{record.gid,jdbcType=INTEGER},
+      </if>
+      <if test="record.gname != null">
+        gname = #{record.gname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gstyle != null">
+        gstyle = #{record.gstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.glabel != null">
+        glabel = #{record.glabel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ghits != null">
+        ghits = #{record.ghits,jdbcType=INTEGER},
+      </if>
+      <if test="record.gwriter != null">
+        gwriter = #{record.gwriter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gdate != null">
+        gdate = #{record.gdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gneed != null">
+        gneed = #{record.gneed,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update greens
+    set gid = #{record.gid,jdbcType=INTEGER},
+      gname = #{record.gname,jdbcType=VARCHAR},
+      gstyle = #{record.gstyle,jdbcType=VARCHAR},
+      glabel = #{record.glabel,jdbcType=VARCHAR},
+      ghits = #{record.ghits,jdbcType=INTEGER},
+      gwriter = #{record.gwriter,jdbcType=VARCHAR},
+      gdate = #{record.gdate,jdbcType=VARCHAR},
+      gneed = #{record.gneed,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.bean.Greens">
+    update greens
+    <set>
+      <if test="gname != null">
+        gname = #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="gstyle != null">
+        gstyle = #{gstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="glabel != null">
+        glabel = #{glabel,jdbcType=VARCHAR},
+      </if>
+      <if test="ghits != null">
+        ghits = #{ghits,jdbcType=INTEGER},
+      </if>
+      <if test="gwriter != null">
+        gwriter = #{gwriter,jdbcType=VARCHAR},
+      </if>
+      <if test="gdate != null">
+        gdate = #{gdate,jdbcType=VARCHAR},
+      </if>
+      <if test="gneed != null">
+        gneed = #{gneed,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where gid = #{gid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.bean.Greens">
+    update greens
+    set gname = #{gname,jdbcType=VARCHAR},
+      gstyle = #{gstyle,jdbcType=VARCHAR},
+      glabel = #{glabel,jdbcType=VARCHAR},
+      ghits = #{ghits,jdbcType=INTEGER},
+      gwriter = #{gwriter,jdbcType=VARCHAR},
+      gdate = #{gdate,jdbcType=VARCHAR},
+      gneed = #{gneed,jdbcType=VARCHAR}
+    where gid = #{gid,jdbcType=INTEGER}
+  </update>
+</mapper>

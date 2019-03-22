@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wechat.dao.StepMapper">
+  <resultMap id="BaseResultMap" type="com.wechat.bean.Step">
+    <id column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="step" jdbcType="INTEGER" property="step" />
+    <result column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="voice" jdbcType="VARCHAR" property="voice" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="timing" jdbcType="INTEGER" property="timing" />
+    <result column="sphoto" jdbcType="VARCHAR" property="sphoto" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sid, step, gid, voice, describe, timing, sphoto
+  </sql>
+  <select id="selectByExample" parameterType="com.wechat.bean.StepExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from step
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from step
+    where sid = #{sid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from step
+    where sid = #{sid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wechat.bean.StepExample">
+    delete from step
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wechat.bean.Step">
+    insert into step (sid, step, gid, 
+      voice, describe, timing, 
+      sphoto)
+    values (#{sid,jdbcType=INTEGER}, #{step,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, 
+      #{voice,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{timing,jdbcType=INTEGER}, 
+      #{sphoto,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.bean.Step">
+    insert into step
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="step != null">
+        step,
+      </if>
+      <if test="gid != null">
+        gid,
+      </if>
+      <if test="voice != null">
+        voice,
+      </if>
+      <if test="describe != null">
+        describe,
+      </if>
+      <if test="timing != null">
+        timing,
+      </if>
+      <if test="sphoto != null">
+        sphoto,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="step != null">
+        #{step,jdbcType=INTEGER},
+      </if>
+      <if test="gid != null">
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="voice != null">
+        #{voice,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="timing != null">
+        #{timing,jdbcType=INTEGER},
+      </if>
+      <if test="sphoto != null">
+        #{sphoto,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wechat.bean.StepExample" resultType="java.lang.Long">
+    select count(*) from step
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update step
+    <set>
+      <if test="record.sid != null">
+        sid = #{record.sid,jdbcType=INTEGER},
+      </if>
+      <if test="record.step != null">
+        step = #{record.step,jdbcType=INTEGER},
+      </if>
+      <if test="record.gid != null">
+        gid = #{record.gid,jdbcType=INTEGER},
+      </if>
+      <if test="record.voice != null">
+        voice = #{record.voice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.describe != null">
+        describe = #{record.describe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timing != null">
+        timing = #{record.timing,jdbcType=INTEGER},
+      </if>
+      <if test="record.sphoto != null">
+        sphoto = #{record.sphoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update step
+    set sid = #{record.sid,jdbcType=INTEGER},
+      step = #{record.step,jdbcType=INTEGER},
+      gid = #{record.gid,jdbcType=INTEGER},
+      voice = #{record.voice,jdbcType=VARCHAR},
+      describe = #{record.describe,jdbcType=VARCHAR},
+      timing = #{record.timing,jdbcType=INTEGER},
+      sphoto = #{record.sphoto,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.bean.Step">
+    update step
+    <set>
+      <if test="step != null">
+        step = #{step,jdbcType=INTEGER},
+      </if>
+      <if test="gid != null">
+        gid = #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="voice != null">
+        voice = #{voice,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="timing != null">
+        timing = #{timing,jdbcType=INTEGER},
+      </if>
+      <if test="sphoto != null">
+        sphoto = #{sphoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.bean.Step">
+    update step
+    set step = #{step,jdbcType=INTEGER},
+      gid = #{gid,jdbcType=INTEGER},
+      voice = #{voice,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
+      timing = #{timing,jdbcType=INTEGER},
+      sphoto = #{sphoto,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+</mapper>

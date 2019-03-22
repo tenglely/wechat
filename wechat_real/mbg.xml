@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+  	
+  	<!-- 生成后不带注释 -->
+  	<commentGenerator>
+  		<property name="suppressAllComments" value="true" />
+	</commentGenerator>
+  	
+  	<!-- 配置数据库连接 -->
+    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+        connectionURL="jdbc:MySQL://localhost:3306/wechatdata?serverTimezone=UTC"
+        userId="root"
+        password="123456">
+       <property name="useInformationSchema" value="true"/>
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+	
+	<!-- 指定javabean生成的位置 -->
+    <javaModelGenerator 
+    		targetPackage="com.wechat.bean" 
+    		targetProject=".\src\main\java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+	
+	<!-- 指定sql映射文件生成的位置 -->
+    <sqlMapGenerator 
+    		targetPackage="mapper"  
+    		targetProject=".\src\main\resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+	
+	<!-- 指定dao接口生成的位置，mapper位置 -->
+    <javaClientGenerator type="XMLMAPPER" 
+    		targetPackage="com.wechat.dao"  
+    		targetProject=".\src\main\java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+	
+	<!-- table指定每个表的生成策略 ,为bean命名-->
+	<table tableName="attention" domainObjectName="Attention"></table>
+	<table tableName="comment" domainObjectName="Comment"></table>
+	<table tableName="greens" domainObjectName="Greens"></table>
+	<table tableName="post" domainObjectName="Post"></table>
+	<table tableName="step" domainObjectName="Step"></table>
+	<table tableName="we_user" domainObjectName="User"></table>
+	
+  </context>
+</generatorConfiguration>

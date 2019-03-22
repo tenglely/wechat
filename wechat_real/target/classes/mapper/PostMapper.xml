@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wechat.dao.PostMapper">
+  <resultMap id="BaseResultMap" type="com.wechat.bean.Post">
+    <id column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="pcontent" jdbcType="VARCHAR" property="pcontent" />
+    <result column="hits" jdbcType="VARCHAR" property="hits" />
+    <result column="goodnum" jdbcType="INTEGER" property="goodnum" />
+    <result column="badnum" jdbcType="INTEGER" property="badnum" />
+    <result column="pdate" jdbcType="VARCHAR" property="pdate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pid, title, uid, pcontent, hits, goodnum, badnum, pdate
+  </sql>
+  <select id="selectByExample" parameterType="com.wechat.bean.PostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from post
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from post
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wechat.bean.PostExample">
+    delete from post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wechat.bean.Post">
+    insert into post (pid, title, uid, 
+      pcontent, hits, goodnum, 
+      badnum, pdate)
+    values (#{pid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, 
+      #{pcontent,jdbcType=VARCHAR}, #{hits,jdbcType=VARCHAR}, #{goodnum,jdbcType=INTEGER}, 
+      #{badnum,jdbcType=INTEGER}, #{pdate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.bean.Post">
+    insert into post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="pcontent != null">
+        pcontent,
+      </if>
+      <if test="hits != null">
+        hits,
+      </if>
+      <if test="goodnum != null">
+        goodnum,
+      </if>
+      <if test="badnum != null">
+        badnum,
+      </if>
+      <if test="pdate != null">
+        pdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="pcontent != null">
+        #{pcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null">
+        #{hits,jdbcType=VARCHAR},
+      </if>
+      <if test="goodnum != null">
+        #{goodnum,jdbcType=INTEGER},
+      </if>
+      <if test="badnum != null">
+        #{badnum,jdbcType=INTEGER},
+      </if>
+      <if test="pdate != null">
+        #{pdate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wechat.bean.PostExample" resultType="java.lang.Long">
+    select count(*) from post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update post
+    <set>
+      <if test="record.pid != null">
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.pcontent != null">
+        pcontent = #{record.pcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hits != null">
+        hits = #{record.hits,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodnum != null">
+        goodnum = #{record.goodnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.badnum != null">
+        badnum = #{record.badnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.pdate != null">
+        pdate = #{record.pdate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update post
+    set pid = #{record.pid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=INTEGER},
+      pcontent = #{record.pcontent,jdbcType=VARCHAR},
+      hits = #{record.hits,jdbcType=VARCHAR},
+      goodnum = #{record.goodnum,jdbcType=INTEGER},
+      badnum = #{record.badnum,jdbcType=INTEGER},
+      pdate = #{record.pdate,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.bean.Post">
+    update post
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="pcontent != null">
+        pcontent = #{pcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null">
+        hits = #{hits,jdbcType=VARCHAR},
+      </if>
+      <if test="goodnum != null">
+        goodnum = #{goodnum,jdbcType=INTEGER},
+      </if>
+      <if test="badnum != null">
+        badnum = #{badnum,jdbcType=INTEGER},
+      </if>
+      <if test="pdate != null">
+        pdate = #{pdate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.bean.Post">
+    update post
+    set title = #{title,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      pcontent = #{pcontent,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=VARCHAR},
+      goodnum = #{goodnum,jdbcType=INTEGER},
+      badnum = #{badnum,jdbcType=INTEGER},
+      pdate = #{pdate,jdbcType=VARCHAR}
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+</mapper>
