@@ -6,7 +6,7 @@
     <result column="step" jdbcType="INTEGER" property="step" />
     <result column="gid" jdbcType="INTEGER" property="gid" />
     <result column="voice" jdbcType="VARCHAR" property="voice" />
-    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="sdescribe" jdbcType="VARCHAR" property="sdescribe" />
     <result column="timing" jdbcType="INTEGER" property="timing" />
     <result column="sphoto" jdbcType="VARCHAR" property="sphoto" />
   </resultMap>
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    sid, step, gid, voice, describe, timing, sphoto
+    sid, step, gid, voice, sdescribe, timing, sphoto
   </sql>
   <select id="selectByExample" parameterType="com.wechat.bean.StepExample" resultMap="BaseResultMap">
     select
@@ -103,10 +103,10 @@
   </delete>
   <insert id="insert" parameterType="com.wechat.bean.Step">
     insert into step (sid, step, gid, 
-      voice, describe, timing, 
+      voice, sdescribe, timing, 
       sphoto)
     values (#{sid,jdbcType=INTEGER}, #{step,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, 
-      #{voice,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{timing,jdbcType=INTEGER}, 
+      #{voice,jdbcType=VARCHAR}, #{sdescribe,jdbcType=VARCHAR}, #{timing,jdbcType=INTEGER}, 
       #{sphoto,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wechat.bean.Step">
@@ -125,7 +125,7 @@
         voice,
       </if>
       <if test="describe != null">
-        describe,
+        sdescribe,
       </if>
       <if test="timing != null">
         timing,
@@ -148,7 +148,7 @@
         #{voice,jdbcType=VARCHAR},
       </if>
       <if test="describe != null">
-        #{describe,jdbcType=VARCHAR},
+        #{sdescribe,jdbcType=VARCHAR},
       </if>
       <if test="timing != null">
         #{timing,jdbcType=INTEGER},
@@ -180,7 +180,7 @@
         voice = #{record.voice,jdbcType=VARCHAR},
       </if>
       <if test="record.describe != null">
-        describe = #{record.describe,jdbcType=VARCHAR},
+        describe = #{record.sdescribe,jdbcType=VARCHAR},
       </if>
       <if test="record.timing != null">
         timing = #{record.timing,jdbcType=INTEGER},
@@ -199,7 +199,7 @@
       step = #{record.step,jdbcType=INTEGER},
       gid = #{record.gid,jdbcType=INTEGER},
       voice = #{record.voice,jdbcType=VARCHAR},
-      describe = #{record.describe,jdbcType=VARCHAR},
+      sdescribe = #{record.sdescribe,jdbcType=VARCHAR},
       timing = #{record.timing,jdbcType=INTEGER},
       sphoto = #{record.sphoto,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -219,7 +219,7 @@
         voice = #{voice,jdbcType=VARCHAR},
       </if>
       <if test="describe != null">
-        describe = #{describe,jdbcType=VARCHAR},
+        sdescribe = #{sdescribe,jdbcType=VARCHAR},
       </if>
       <if test="timing != null">
         timing = #{timing,jdbcType=INTEGER},
@@ -235,7 +235,7 @@
     set step = #{step,jdbcType=INTEGER},
       gid = #{gid,jdbcType=INTEGER},
       voice = #{voice,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR},
+      sdescribe = #{sdescribe,jdbcType=VARCHAR},
       timing = #{timing,jdbcType=INTEGER},
       sphoto = #{sphoto,jdbcType=VARCHAR}
     where sid = #{sid,jdbcType=INTEGER}
