@@ -22,90 +22,92 @@ public class Step {
 
     private String voice;
 
-    private String describe;
+    private String sdescribe;
 
     private Integer timing;
 
     private String sphoto;
-    
-    
 
-    public Step() {
-		super();
-	}
-
-	public Step(Integer sid, Integer step, Integer gid, String voice, String describe, Integer timing, String sphoto) {
+	public Step(Integer sid, Integer step, Integer gid, String voice, String sdescribe, Integer timing, String sphoto) {
 		super();
 		this.sid = sid;
 		this.step = step;
 		this.gid = gid;
 		this.voice = voice;
-		this.describe = describe;
+		this.sdescribe = sdescribe;
 		this.timing = timing;
 		this.sphoto = sphoto;
 	}
 
+	public Step() {
+		super();
+	}
+
 	public Integer getSid() {
-        return sid;
-    }
+		return sid;
+	}
 
-    public void setSid(Integer sid) {
-        this.sid = sid;
-    }
+	public void setSid(Integer sid) {
+		this.sid = sid;
+	}
 
-    public Integer getStep() {
-        return step;
-    }
+	public Integer getStep() {
+		return step;
+	}
 
-    public void setStep(Integer step) {
-        this.step = step;
-    }
+	public void setStep(Integer step) {
+		this.step = step;
+	}
 
-    public Integer getGid() {
-        return gid;
-    }
+	public Integer getGid() {
+		return gid;
+	}
 
-    public void setGid(Integer gid) {
-        this.gid = gid;
-    }
+	public void setGid(Integer gid) {
+		this.gid = gid;
+	}
 
-    public String getVoice() {
-        return voice;
-    }
+	public String getVoice() {
+		return voice;
+	}
 
-    public void setVoice(String voice) {
-        this.voice = voice == null ? null : voice.trim();
-    }
+	public void setVoice(String voice) {
+		this.voice = voice;
+	}
 
-    public String getDescribe() {
-        return describe;
-    }
+	public String getSdescribe() {
+		return sdescribe;
+	}
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
-    }
+	public void setSdescribe(String sdescribe) {
+		this.sdescribe = sdescribe;
+	}
 
-    public Integer getTiming() {
-        return timing;
-    }
+	public Integer getTiming() {
+		return timing;
+	}
 
-    public void setTiming(Integer timing) {
-        this.timing = timing;
-    }
+	public void setTiming(Integer timing) {
+		this.timing = timing;
+	}
 
-    public String getSphoto() {
-        return sphoto;
-    }
+	public String getSphoto() {
+		return sphoto;
+	}
 
-    public void setSphoto(String sphoto) {
-        this.sphoto = sphoto == null ? null : sphoto.trim();
-    }
+	public void setSphoto(String sphoto) {
+		this.sphoto = sphoto;
+	}
 
 	@Override
 	public String toString() {
-		return "Step [sid=" + sid + ", step=" + step + ", gid=" + gid + ", voice=" + voice + ", describe=" + describe
+		return "Step [sid=" + sid + ", step=" + step + ", gid=" + gid + ", voice=" + voice + ", sdescribe=" + sdescribe
 				+ ", timing=" + timing + ", sphoto=" + sphoto + "]";
 	}
+    
+    
+
+    
     
     
 }
