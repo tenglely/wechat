@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>添加菜品信息</title>
+<title>修改菜品信息</title>
 <%
 	pageContext.setAttribute("APP_PATH", request.getContextPath());
 %>
@@ -16,6 +16,7 @@
 <script type="text/javascript" charset="utf-8" src="${APP_PATH}/utf8-jsp/ueditor.all.min.js"> </script>    
 <script type="text/javascript" charset="utf-8" src="${APP_PATH}/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
 <style type="text/css">
+	
 	.top{
 		background-color: 	#A9A9A9;
 	}
@@ -34,7 +35,22 @@
 </style>
 </head>
 <body>
+
+	<div class="modal fade" id="add_emp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">添加员工</h4>
+	      </div>
+	      <div class="modal-body">
+	        	修改成功
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
+
 	<!-- Modal -->
 	<div class="modal fade" id="add_gstyle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog" role="document">
@@ -112,11 +128,11 @@
 					 	<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					 	首页
 					 </a>
-					 <a class="list-group-item active" href="${APP_PATH}/view/addGreens.jsp">
+					 <a class="list-group-item" href="${APP_PATH}/view/addGreens.jsp">
 					 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					 	添加菜品
 					 </a>
-					 <a class="list-group-item" href="${APP_PATH}/view/greensManager.jsp">
+					 <a class="list-group-item active" href="${APP_PATH}/view/greensManager.jsp">
 					 	<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
 					 	菜单信息管理
 					 </a>
@@ -138,17 +154,19 @@
 				<br>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-12" id="main" style="background-color: #e3e3e8;height: 850px;">
+						<div class="col-md-12" id="main" style="background-color: #e3e3e8;height:  850px;">
 							<br>
-							<form id="saveform" enctype="multipart/form-data" method="post">
+							<form action="${APP_PATH}/updateGreens" enctype="multipart/form-data"  method="post">
+								<input type="hidden" value="${greens.gid}" name="gid">
 								<div class="input-group col-md-6">
 									<span class="input-group-addon" style="font-size: 20px;">菜品名：</span>
-									<input class="form-control " type="text" name="gname" id="gname">
+									<input class="form-control " type="text" value="${greens.gname}" name="gname" id="gname">
 								</div><br>
 								<div class="input-group col-md-6">
 									<span class="input-group-addon" style="font-size: 20px;">所属菜系：</span>
 									<div class="col-xs-10">
 									<select class="form-control" name="gstyle">
+										<option value="${greens.gstyle}">${greens.gstyle}</option>
 										<option id="gstyle_o">自定义</option>
 										<option value="粤菜">粤菜</option>
 										<option value="鲁菜">鲁菜</option>
@@ -167,25 +185,27 @@
 								<div class="input-group col-md-6">
 									<span class="input-group-addon" style="font-size: 20px;">标签：</span>
 									<div class="col-xs-10">
-									<input class="form-control" type="text" name="glabel" id="glabel" placeholder="如：家常菜，甜品，汤，粥等分类">
+									<input class="form-control" type="text" value="${greens.glabel}" name="glabel" id="glabel" placeholder="如：家常菜，甜品，汤，粥等分类">
 									</div>
 									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#add_glabel">
 									  添加标签
 									</button>
 								</div><br>
 								<div class="input-group col-md-6">
-									<span class="input-group-addon" style="font-size: 20px;">封面图片：</span>
+									<span class="input-group-addon" style="font-size: 20px;">封面原图片：</span>
+									<img alt="原图" src="${APP_PATH}/image/${greens.gcover}" style="width: 160px;height: 100px;">
+								</div><br>
+								<div class="input-group col-md-6">
+									<span class="input-group-addon" style="font-size: 20px;">替换封面图片：</span>
 									<input class="form-control btn btn-info" type="file" name="file">
 								</div><br> 
 								<div class="input-group col-md-6">
 									<span class="input-group-addon" style="font-size: 16px;"><b>菜品简介：</b></span>
 						            <script id="editor" type="text/plain"
-						                style="width:850px;height:400px;"></script>
+						                style="width:850px;height:400px;">${greens.gneed}</script>
 								</div><br>
 								<div class="input-group col-md-6 col-md-offset-3">
-									<button class="btn btn-primary" onclick="doAction('${APP_PATH}/addGreens_next')">确定并进行步骤添加</button>
-									&nbsp;&nbsp;&nbsp;&nbsp;
-									<button class="btn btn-primary" id="addGreens_last">确认并结束</button>
+									<input type="submit" class="btn btn-primary" value="确认并结束">
 									&nbsp;&nbsp;&nbsp;&nbsp;
 									<button class="btn btn-primary">重置</button>
 								</div>
@@ -198,22 +218,19 @@
 		</div>
 	</div>
 	
+
+          
+	
 	<script type="text/javascript">
-		
-		//添加greens，并进行步骤添加
-		function doAction(value){
-			$("#saveform").attr("action",value);
-			$("#saveform").submit();
-		}
-		
-		//添加greens,不进行步骤添加
+				
+		//修改greens
 		$("#addGreens_last").click(function(){
 			$.ajax({
-				url:"${APP_PATH}/addGreens_last",
+				url:"${APP_PATH}/updateGreens",
 				type:"POST",
 				data:$("#saveform").serialize(),
 				success:function(result){
-					alert("添加成功");
+					window.location.href="${APP_PATH}/view/greensManager.jsp";
 				}
 			});
 		});

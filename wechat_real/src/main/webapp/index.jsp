@@ -1,3 +1,4 @@
+<%@page import="com.wechat.bean.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -33,13 +34,19 @@
 </style>
 </head>
 <body>
+	<%
+		if(session.getAttribute("login")==null||session.getAttribute("login")==""){
+			request.getRequestDispatcher("/view/login.jsp").forward(request, response);
+		}
+		User user=(User)session.getAttribute("login");
+	%>
 	<div class="container-fluid">
 		<div class="row top">
 			<div class="col-lg-12">
 				<h4 align="right">
 					欢迎管理员:
-					<a href="">
-					<img class="img_manager img-circle" src="${APP_PATH}/image/manager.jpg" alt="photo">
+					<a href="${APP_PATH}/view/admin.jsp?<%=user.getUid()%>">
+					<img class="img_manager img-circle" src="${APP_PATH}/image/<%=user.getPurl() %>" alt="photo">
 					</a>
 				</h4>
 			</div>
@@ -82,6 +89,7 @@
 			</div>
 			<div class="col-md-10">
 				<h1 align="center">首页内容</h1>
+				
 			</div>
 		</div>
 	</div>
