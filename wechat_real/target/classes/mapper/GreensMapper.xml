@@ -6,6 +6,7 @@
     <result column="gname" jdbcType="VARCHAR" property="gname" />
     <result column="gstyle" jdbcType="VARCHAR" property="gstyle" />
     <result column="glabel" jdbcType="VARCHAR" property="glabel" />
+    <result column="gcover" jdbcType="VARCHAR" property="gcover" />
     <result column="ghits" jdbcType="INTEGER" property="ghits" />
     <result column="gwriter" jdbcType="VARCHAR" property="gwriter" />
     <result column="gdate" jdbcType="VARCHAR" property="gdate" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    gid, gname, gstyle, glabel, ghits, gwriter, gdate, gneed
+    gid, gname, gstyle, glabel,gcover, ghits, gwriter, gdate, gneed
   </sql>
   <select id="selectByExample" parameterType="com.wechat.bean.GreensExample" resultMap="BaseResultMap">
     select
@@ -104,10 +105,10 @@
   </delete>
   <insert id="insert" parameterType="com.wechat.bean.Greens">
     insert into greens (gid, gname, gstyle, 
-      glabel, ghits, gwriter, 
+      glabel,gcover, ghits, gwriter, 
       gdate, gneed)
     values (#{gid,jdbcType=INTEGER}, #{gname,jdbcType=VARCHAR}, #{gstyle,jdbcType=VARCHAR}, 
-      #{glabel,jdbcType=VARCHAR}, #{ghits,jdbcType=INTEGER}, #{gwriter,jdbcType=VARCHAR}, 
+      #{glabel,jdbcType=VARCHAR},#{gcover,jdbcType=VARCHAR}, #{ghits,jdbcType=INTEGER}, #{gwriter,jdbcType=VARCHAR}, 
       #{gdate,jdbcType=VARCHAR}, #{gneed,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wechat.bean.Greens">
@@ -124,6 +125,9 @@
       </if>
       <if test="glabel != null">
         glabel,
+      </if>
+      <if test="gcover != null">
+        gcover,
       </if>
       <if test="ghits != null">
         ghits,
@@ -150,6 +154,9 @@
       </if>
       <if test="glabel != null">
         #{glabel,jdbcType=VARCHAR},
+      </if>
+      <if test="gcover != null">
+        #{gcover,jdbcType=VARCHAR},
       </if>
       <if test="ghits != null">
         #{ghits,jdbcType=INTEGER},
@@ -186,6 +193,9 @@
       <if test="record.glabel != null">
         glabel = #{record.glabel,jdbcType=VARCHAR},
       </if>
+       <if test="record.gcover != null">
+        gcover = #{record.gcover,jdbcType=VARCHAR},
+      </if>
       <if test="record.ghits != null">
         ghits = #{record.ghits,jdbcType=INTEGER},
       </if>
@@ -209,6 +219,7 @@
       gname = #{record.gname,jdbcType=VARCHAR},
       gstyle = #{record.gstyle,jdbcType=VARCHAR},
       glabel = #{record.glabel,jdbcType=VARCHAR},
+      gcover = #{record.gcover,jdbcType=VARCHAR},
       ghits = #{record.ghits,jdbcType=INTEGER},
       gwriter = #{record.gwriter,jdbcType=VARCHAR},
       gdate = #{record.gdate,jdbcType=VARCHAR},
@@ -228,6 +239,9 @@
       </if>
       <if test="glabel != null">
         glabel = #{glabel,jdbcType=VARCHAR},
+      </if>
+      <if test="gcover != null">
+        gcover = #{gcover,jdbcType=VARCHAR},
       </if>
       <if test="ghits != null">
         ghits = #{ghits,jdbcType=INTEGER},
@@ -249,6 +263,7 @@
     set gname = #{gname,jdbcType=VARCHAR},
       gstyle = #{gstyle,jdbcType=VARCHAR},
       glabel = #{glabel,jdbcType=VARCHAR},
+      gcover = #{gcover,jdbcType=VARCHAR},
       ghits = #{ghits,jdbcType=INTEGER},
       gwriter = #{gwriter,jdbcType=VARCHAR},
       gdate = #{gdate,jdbcType=VARCHAR},

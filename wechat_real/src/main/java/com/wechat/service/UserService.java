@@ -52,7 +52,7 @@ public class UserService {
 	}
 
 	public void updatUser(User user) {
-		userMapper.updateByPrimaryKeySelective(user);
+		userMapper.updateByPrimaryKey(user);
 	}
 
 	public void deleteEmp(Integer id) {
@@ -94,4 +94,36 @@ public class UserService {
 		criteria.andOpenidEqualTo(openid);
 		return userMapper.selectByExample(userExample);
 	}
+	
+	/**
+	 * 管理员登录
+	 * @param uname
+	 * @param openid
+	 * @return
+	 */
+	public User loging(String uname, String openid) {
+		UserExample userExample=new UserExample();
+		Criteria criteria=userExample.createCriteria();
+		criteria.andUnameEqualTo(uname);
+		criteria.andOpenidEqualTo(openid);
+		List<User> list=userMapper.selectByExample(userExample);
+		System.out.println(list);
+		if(list.isEmpty()){
+			return null;
+		}
+		return list.get(0);
+	}
+	
+	/**
+	 * 查找所有管理员数据
+	 * @return
+	 */
+	public List<User> findAllAdmin() {
+		UserExample userExample=new UserExample();
+		Criteria criteria=userExample.createCriteria();
+		criteria.andUclassNotEqualTo("用户");
+		List<User> list=userMapper.selectByExample(userExample);
+		return list;
+	}
+	
 }

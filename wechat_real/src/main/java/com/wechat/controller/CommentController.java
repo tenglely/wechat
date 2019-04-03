@@ -132,6 +132,7 @@ public class CommentController {
 		List<Greens> greens=greensService.findAll();
 		return Msg.success().add("green",greens);
 	}
+	
 	@ResponseBody
 	@RequestMapping(value = "select_post",method = RequestMethod.GET)
 	public Msg findPid(){

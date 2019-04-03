@@ -6,7 +6,7 @@ package com.wechat.bean;
 	第几步骤 step;(int)
 	菜品编号 gid;
 	步骤语音 voice;
-   	文字描述：describe;
+   	文字描述：sdescribe;
 	定时：timing (默认为0分钟)
 	步骤配图名 sphoto;
 
