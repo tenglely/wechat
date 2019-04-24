@@ -19,6 +19,10 @@ public interface PostMapper {
     List<Post> selectByExample(PostExample example);
 
     Post selectByPrimaryKey(Integer pid);
+    
+    List<Post> selectByExampleWithUser(PostExample example);
+
+    Post selectByPrimaryKeyWithUser(Integer pid);
 
     int updateByExampleSelective(@Param("record") Post record, @Param("example") PostExample example);
 

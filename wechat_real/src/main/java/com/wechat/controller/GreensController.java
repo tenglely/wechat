@@ -34,7 +34,7 @@ public class GreensController {
 	
 	/**
 	 * 前端根据标签进行查询，需传两个值（pn,glabel）
-	 * 分页（一页5个）
+	 * 分页（一页8个）
 	 * @param pn
 	 * @param glabel
 	 * @return
@@ -46,7 +46,7 @@ public class GreensController {
 		GreensExample greensExample=new GreensExample();
 		Criteria criteria=greensExample.createCriteria();
 		criteria.andGlabelLike("%"+glabel+"%");
-		PageHelper.startPage(pn, 5);
+		PageHelper.startPage(pn, 8);
 		List<Greens> list=greensService.findByGlabel(greensExample);
 		System.out.println("标签值为"+glabel+"，模糊查询");
 		PageInfo page=new PageInfo(list,5);
@@ -56,8 +56,8 @@ public class GreensController {
 	/**
 	 * 前端根据rule进行查找，需传两个值（pn,rule）
 	 * rule有两个值：hot,new
-	 * hot:查询点击量最多的菜品（分页 5个一页）
-	 * new:查询最新更新的菜品（分页 5个一页）
+	 * hot:查询点击量最多的菜品（分页 8个一页）
+	 * new:查询最新更新的菜品（分页8个一页）
 	 * @param pn
 	 * @param rule
 	 * @return
@@ -69,7 +69,7 @@ public class GreensController {
 		if(rule.equals("hot")){
 			GreensExample greensExample=new GreensExample();
 			greensExample.setOrderByClause("ghits DESC,gid DESC");
-			PageHelper.startPage(pn, 5);
+			PageHelper.startPage(pn, 8);
 			List<Greens> list=greensService.findByGhits(greensExample);
 			System.out.println("点击量最多进行排序");
 			PageInfo page=new PageInfo(list,5);
@@ -77,7 +77,7 @@ public class GreensController {
 		}else{
 			GreensExample greensExample=new GreensExample();
 			greensExample.setOrderByClause("gid DESC");
-			PageHelper.startPage(pn, 5);
+			PageHelper.startPage(pn, 8);
 			List<Greens> list=greensService.findByGhits(greensExample);
 			System.out.println("最新进行排序");
 			PageInfo page=new PageInfo(list,5);
@@ -86,7 +86,7 @@ public class GreensController {
 	}
 	
 	/**
-	 * 前端根据菜系(gstyle)查找（分页，5个一页）
+	 * 前端根据菜系(gstyle)查找（分页，8个一页）
 	 * 需要传入 pn(默认为第一页)，gstyle (菜系值不能为空)
 	 * 查询的数据按点击量高低排序
 	 * @param pn
@@ -101,7 +101,7 @@ public class GreensController {
 		greensExample.setOrderByClause("ghits DESC,gid DESC");
 		Criteria criteria=greensExample.createCriteria();
 		criteria.andGstyleLike("%"+gstyle+"%");
-		PageHelper.startPage(pn, 5);
+		PageHelper.startPage(pn, 8);
 		List<Greens> list=greensService.findByGstyle(greensExample);
 		System.out.println("所属菜系值为"+gstyle+"，模糊查询");
 		PageInfo page=new PageInfo(list,5);
@@ -110,7 +110,7 @@ public class GreensController {
 	}
 	
 	/**
-	 * 前端获取所有greens数据（分页，5个一页）
+	 * 前端获取所有greens数据（分页，8个一页）
 	 * 需传入值 pn(默认为1)
 	 * 从新到旧排序
 	 * @param pn
@@ -121,7 +121,7 @@ public class GreensController {
 	public Msg wechat_allgreens(@RequestParam(value="pn",defaultValue="1")Integer pn){
 		GreensExample greensExample=new GreensExample();
 		greensExample.setOrderByClause("gid DESC");
-		PageHelper.startPage(pn, 5);
+		PageHelper.startPage(pn, 8);
 		List<Greens> list=greensService.findAll(greensExample);
 		PageInfo page=new PageInfo(list,5);
 		return Msg.success().add("pageInfo", page);
@@ -183,8 +183,10 @@ public class GreensController {
 	            String before_photo=greens.getGcover();
 	            greens.setGcover(filename);
 	            //删除原图片
-	            File file1=new File(path+before_photo);
-	            boolean a=file1.delete();
+	            if(!before_photo.equals("1231.jpg")){
+		            File file1=new File(path+before_photo);
+		            boolean a=file1.delete();
+	            }
 	        } 
 		System.out.println(greens);
 		greensService.update(greens);
@@ -235,15 +237,19 @@ public class GreensController {
 			@RequestParam(value="find_value")String find_value){
 		System.out.println(select_way+" "+find_value);
 		if(select_way.equals("全部")){
+			GreensExample greensExample=new GreensExample();
+			greensExample.setOrderByClause("gid DESC");
 			PageHelper.startPage(pn, 5);
-			List<Greens> list=greensService.findAll();
+			List<Greens> list=greensService.findAll(greensExample);
 			System.out.println(list);
 			PageInfo page=new PageInfo(list,5);
 			return Msg.success().add("pageInfo", page);
 		}else if (select_way.equals("菜品编号")) {
 			if(find_value==""){
+				GreensExample greensExample=new GreensExample();
+				greensExample.setOrderByClause("gid DESC");
 				PageHelper.startPage(pn, 5);
-				List<Greens> list=greensService.findAll();
+				List<Greens> list=greensService.findAll(greensExample);
 				System.out.println("菜品编号值为空，查全部");
 				PageInfo page=new PageInfo(list,5);
 				return Msg.success().add("pageInfo", page);
@@ -256,8 +262,10 @@ public class GreensController {
 			}
 		}else if (select_way.equals("菜品名")){
 			if(find_value==""){
+				GreensExample greensExample=new GreensExample();
+				greensExample.setOrderByClause("gid DESC");
 				PageHelper.startPage(pn, 5);
-				List<Greens> list=greensService.findAll();
+				List<Greens> list=greensService.findAll(greensExample);
 				System.out.println("菜品名值为空，查全部");
 				PageInfo page=new PageInfo(list,5);
 				return Msg.success().add("pageInfo", page);
@@ -274,8 +282,10 @@ public class GreensController {
 			}
 		}else if (select_way.equals("所属菜系")){
 			if(find_value==""){
+				GreensExample greensExample=new GreensExample();
+				greensExample.setOrderByClause("gid DESC");
 				PageHelper.startPage(pn, 5);
-				List<Greens> list=greensService.findAll();
+				List<Greens> list=greensService.findAll(greensExample);
 				System.out.println("所属菜系值为空，查全部");
 				PageInfo page=new PageInfo(list,5);
 				return Msg.success().add("pageInfo", page);
@@ -291,8 +301,10 @@ public class GreensController {
 			}
 		}else if (select_way.equals("标签")){
 			if(find_value==""){
+				GreensExample greensExample=new GreensExample();
+				greensExample.setOrderByClause("gid DESC");
 				PageHelper.startPage(pn, 5);
-				List<Greens> list=greensService.findAll();
+				List<Greens> list=greensService.findAll(greensExample);
 				System.out.println("标签值为空，查全部");
 				PageInfo page=new PageInfo(list,5);
 				return Msg.success().add("pageInfo", page);
@@ -386,7 +398,8 @@ public class GreensController {
 	 */
 	@RequestMapping("/addGreens_last")
 	@ResponseBody
-	public Msg addGreens_last(HttpServletRequest request,
+	public void addGreens_last(HttpServletRequest request,
+			HttpServletResponse response,
 			@RequestParam(value="gname")String gname,
 			@RequestParam(value="gstyle")String gstyle,
 			@RequestParam(value="glabel")String glabel,
@@ -424,6 +437,6 @@ public class GreensController {
 		greens.setGdate(dateString);
 		greensService.addGreens(greens);
 		System.out.println(greens);
-		return Msg.success();
+		request.getRequestDispatcher("/view/greensManager.jsp").forward(request,response);
 	}
 }

@@ -25,7 +25,7 @@ public class Comment {
 
     private String cdate;
     
-    
+    private User user;
 
     public Comment() {
 		super();
@@ -39,6 +39,15 @@ public class Comment {
 		this.ctype = ctype;
 		this.typeid = typeid;
 		this.cdate = cdate;
+	}
+
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Integer getCid() {
@@ -92,8 +101,7 @@ public class Comment {
 	@Override
 	public String toString() {
 		return "Comment [cid=" + cid + ", uid=" + uid + ", comment=" + comment + ", ctype=" + ctype + ", typeid="
-				+ typeid + ", cdate=" + cdate + "]";
+				+ typeid + ", cdate=" + cdate + ", user=" + user + "]";
 	}
-    
-    
+
 }

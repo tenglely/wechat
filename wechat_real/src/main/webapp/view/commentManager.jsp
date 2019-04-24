@@ -61,7 +61,7 @@
 					 	<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
 					  	功能列表
 					 </a>
-					 <a class="list-group-item" href="${APP_PATH}/index4.jsp">
+					 <a class="list-group-item" href="${APP_PATH}/index.jsp">
 					 	<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					 	首页
 					 </a>
@@ -98,12 +98,12 @@
 						<div class="col-md-2 col-md-offset-2">
 							<select class="form-control" id="emp_select">
 								<option >最新</option>
-								<option value ="uid">uid</option>
-								<option value ="ctype">ctype</option>
+								<option value ="uid">用户编号</option>
+								<option value ="ctype">评论类型</option>
 							</select>
 						</div>
 						<div class="col-md-2">
-							<input type="text" class="form-control" placeholder="name" id="empselect_input"/>
+							<input type="text" class="form-control" placeholder="请输入查询值" id="empselect_input"/>
 						</div>
 						<div class="col-md-2">
 							<button class="btn btn-primary" id="select_btn">查询</button>
@@ -119,11 +119,11 @@
 										<input type="checkbox" id="check_all"/>
 									</th>
 									<th>#</th>
-									<th>uid</th>
-									<th>comment</th>
-									<th>ctype</th>
-									<th>typeid</th>
-									<th>cdate</th>
+									<th>用户编号</th>
+									<th>评论内容</th>
+									<th>评论类型</th>
+									<th>评论类型编号</th>
+									<th>评论时间</th>
 									<th>操作</th>
 								</tr>
 								</thead>

@@ -209,8 +209,9 @@
 			//清空
 			$("#greens_table tbody").empty();
 			var emps=result.extend.pageInfo.list;
+			var i=5*result.extend.pageInfo.pageNum-5;
 			$.each(emps,function(index,item){
-				var gid=$("<td></td>").append(item.gid);
+				var num=$("<td></td>").append(item.gid);
 				var gname=$("<td></td>").append(item.gname);
 				var gstyle=$("<td></td>").append(item.gstyle);
 				var glabel=$("<td></td>").append(item.glabel);
@@ -233,8 +234,8 @@
 				delBtn.attr("del-id",item.gid);
 				var btnTd=$("<td></td>").append(updBtn)
 							.append(" ").append(delBtn);
-				
-				$("<tr></tr>").append(gid)
+				i++;
+				$("<tr></tr>").append(num)
 							  .append(gname)
 							  .append(gstyle)
 							  .append(glabel)

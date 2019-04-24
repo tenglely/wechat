@@ -148,7 +148,7 @@
 								<div class="input-group col-md-6">
 									<span class="input-group-addon" style="font-size: 20px;">所属菜系：</span>
 									<div class="col-xs-10">
-									<select class="form-control" name="gstyle">
+									<select class="form-control" name="gstyle" id="gstyle">
 										<option id="gstyle_o">自定义</option>
 										<option value="粤菜">粤菜</option>
 										<option value="鲁菜">鲁菜</option>
@@ -175,17 +175,16 @@
 								</div><br>
 								<div class="input-group col-md-6">
 									<span class="input-group-addon" style="font-size: 20px;">封面图片：</span>
-									<input class="form-control btn btn-info" type="file" name="file">
+									<input class="form-control btn btn-info" type="file" name="file" id="file1">
 								</div><br> 
 								<div class="input-group col-md-6">
 									<span class="input-group-addon" style="font-size: 16px;"><b>菜品简介：</b></span>
-						            <script id="editor" type="text/plain"
-						                style="width:850px;height:400px;"></script>
+						        	<textarea rows="15" cols="50" style="font-size: 20px;" name="editorValue"></textarea>
 								</div><br>
 								<div class="input-group col-md-6 col-md-offset-3">
 									<button class="btn btn-primary" onclick="doAction('${APP_PATH}/addGreens_next')">确定并进行步骤添加</button>
 									&nbsp;&nbsp;&nbsp;&nbsp;
-									<button class="btn btn-primary" id="addGreens_last">确认并结束</button>
+									<button class="btn btn-primary" onclick="doAction('${APP_PATH}/addGreens_last')">确认并结束</button>
 									&nbsp;&nbsp;&nbsp;&nbsp;
 									<button class="btn btn-primary">重置</button>
 								</div>
@@ -208,6 +207,8 @@
 		
 		//添加greens,不进行步骤添加
 		$("#addGreens_last").click(function(){
+			$("#saveform").attr("action",value);
+			$("#saveform").submit();
 			$.ajax({
 				url:"${APP_PATH}/addGreens_last",
 				type:"POST",

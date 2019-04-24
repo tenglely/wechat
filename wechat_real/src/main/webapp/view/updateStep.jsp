@@ -91,6 +91,8 @@
 				<div class="container-fluid">
 				  <div class="row">
 				  	<br>
+				  	<button class="btn btn-warning" onclick="window.history.back(-1);">返回上一页</button>
+				  	<br>
 				  	<input type="hidden" id="gid" value="<%=request.getParameter("gid")%>">
 				  	<table id="steptable" style="margin-left: 50px;width: 900px;">
 						<thead>
@@ -156,7 +158,7 @@
 		$.each(emps,function(index,item){
 			var step=$("<td></td>").append("做菜第"+item.step+"步：").css("color","#FF0000").css("font-size","28px").attr("align","right");
 			var sphoto=$("<img></img>").attr("src","${APP_PATH}/image/"+item.sphoto).css("width","200px").css("height","120px");
-			var describe=$("<td></td>").append(item.sdescribe).css("color","#000000").css("font-size","18px");
+			var describe=$("<td></td>").append(item.sdescribe).css("color","#000000").css("font-size","18px").attr("align","center");
 			var timing=$("<td></td>").append(item.timing).css("color","#000000").css("font-size","18px").attr("align","center");
 			var updBtn=$("<a></a>").addClass("btn btn-info btn-sm")
 			.append($("<span></span>").addClass("glyphicon glyphicon-pencil"))

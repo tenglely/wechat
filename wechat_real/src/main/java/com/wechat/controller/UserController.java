@@ -121,11 +121,12 @@ public class UserController {
 	 */
 	//public Msg findUserByUid
 	@ResponseBody
-	@RequestMapping(value = "/finduserbyuid/{id}",method = RequestMethod.GET)
-	public  Msg findUserByUid(@PathVariable("id") Integer id){
-		User user=userService.getUserByUid(id);
-		return Msg.success().add("emp",user);
+	@RequestMapping(value = "/finduserbyuid",method = RequestMethod.GET)
+	public  Msg findUserByUid(@RequestParam(value="uid") Integer uid){
+		User user=userService.getUserByUid(uid);
+		return Msg.success().add("user",user);
 	}
+	
 	/**
 	 * 5、根据uid保存一条用户信息
 	 */
@@ -133,7 +134,7 @@ public class UserController {
 	@RequestMapping(value = "/saveuserbyuid/{uid}",method = RequestMethod.PUT)
 	public Msg saveUserByUid(User user){
 		System.out.println("将要更新的员工是"+user);
-		userService.updatUser(user);
+		userService.update(user);
 		return Msg.success();
 	}
 
@@ -173,9 +174,9 @@ public class UserController {
 	//public Msg findUserByUname
 	@ResponseBody
 	@RequestMapping(value = "finduserbyuname",method = RequestMethod.GET)
-	public Msg findUserByUname(@RequestParam("uname") String uname){
+	public Msg findUserByUname(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam("uname") String uname){
+		PageHelper.startPage(pn, 5);
 		List<User> list=userService.findByUname(uname);
-		PageHelper.startPage(1, 5);
 		PageInfo page = new PageInfo(list,5);
 		return Msg.success().add("pageInfo", page);
 	}
@@ -187,9 +188,9 @@ public class UserController {
 	//public Msg findUserByState
 	@ResponseBody
 	@RequestMapping(value = "finduserbystate",method = RequestMethod.GET)
-	public Msg findUserByState(@RequestParam("state") String state){
+	public Msg findUserByState(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam("state") String state){
+		PageHelper.startPage(pn, 5);
 		List<User> list=userService.findByState(state);
-		PageHelper.startPage(1, 5);
 		PageInfo page = new PageInfo(list,5);
 		return Msg.success().add("pageInfo", page);
 	}
@@ -200,15 +201,15 @@ public class UserController {
 	//public Msg findUserByGender
 	@ResponseBody
 	@RequestMapping(value = "finduserbygender",method = RequestMethod.GET)
-	public Msg findUserByGender(@RequestParam("gender") String gender){
+	public Msg findUserByGender(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam("gender") String gender){
 		Integer genders;
 		if(gender.equals("女")){
 			genders=1;
 		}else{
 			genders=0;
 		}
+		PageHelper.startPage(pn, 5);
 		List<User> list=userService.findByGender(genders);
-		PageHelper.startPage(1, 5);
 		PageInfo page = new PageInfo(list,5);
 		return Msg.success().add("pageInfo", page);
 	}

@@ -96,12 +96,12 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" >员工修改</h4>
+							<h4 class="modal-title" >修改用户状态</h4>
 						</div>
 						<div class="modal-body">
 							<form class="form-horizontal">
 								<div class="form-group">
-									<label class="col-sm-2 control-label">uname</label>
+									<label class="col-sm-2 control-label">用户名</label>
 									<div class="col-sm-10">
 										<p class="form-control-static" id="empName_update_static"></p>
 									</div>
@@ -113,13 +113,16 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-2 control-label">state</label>
+									<label class="col-sm-2 control-label">用户状态</label>
 									<div class="col-sm-10">
 										<label class="radio-inline">
 											<input type="radio" name="state" id="gender_update_input" value="yes" checked="checked"> yes
 										</label>
 										<label class="radio-inline">
 											<input type="radio" name="state" id="gender2_update_input" value="no"> no
+										</label>
+										<label class="radio-inline">
+											(no为禁止用户发言)
 										</label>
 									</div>
 								</div>
@@ -143,9 +146,9 @@
 						<select class="form-control" id="emp_select">
 							<option >查询方式</option>
 							<option value ="openid">openid</option>
-							<option value ="uname">uname</option>
-							<option value="gender">gender</option>
-							<option value="state">state</option>
+							<option value ="uname">用户名</option>
+							<option value="gender">性别</option>
+							<option value="state">状态</option>
 						</select>
 					</div>
 					<div class="col-md-2">
@@ -165,10 +168,10 @@
 									<input type="checkbox" id="check_all"/>
 								</th>
 								<th>#</th>
-								<th>uname</th>
-								<th>gender</th>
+								<th>用户名</th>
+								<th>性别</th>
 								<th>openid</th>
-								<th>state</th>
+								<th>用户状态</th>
 								<th>操作</th>
 							</tr>
 							</thead>

@@ -6,10 +6,32 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="pcontent" jdbcType="VARCHAR" property="pcontent" />
+    <result column="pfile" jdbcType="VARCHAR" property="pfile" />
     <result column="hits" jdbcType="VARCHAR" property="hits" />
     <result column="goodnum" jdbcType="INTEGER" property="goodnum" />
     <result column="badnum" jdbcType="INTEGER" property="badnum" />
     <result column="pdate" jdbcType="VARCHAR" property="pdate" />
+  </resultMap>
+  <resultMap id="WithUserResultMap" type="com.wechat.bean.Post">
+    <id column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="pcontent" jdbcType="VARCHAR" property="pcontent" />
+    <result column="pfile" jdbcType="VARCHAR" property="pfile" />
+    <result column="hits" jdbcType="VARCHAR" property="hits" />
+    <result column="goodnum" jdbcType="INTEGER" property="goodnum" />
+    <result column="badnum" jdbcType="INTEGER" property="badnum" />
+    <result column="pdate" jdbcType="VARCHAR" property="pdate" />
+    
+    <association property="user" javaType="com.wechat.bean.User">
+    	<id column="uid" jdbcType="INTEGER" property="uid" />
+	    <result column="uname" jdbcType="VARCHAR" property="uname" />
+	    <result column="openid" jdbcType="VARCHAR" property="openid" />
+	    <result column="purl" jdbcType="VARCHAR" property="purl" />
+	    <result column="gender" jdbcType="INTEGER" property="gender" />
+	    <result column="uclass" jdbcType="VARCHAR" property="uclass" />
+	    <result column="state" jdbcType="VARCHAR" property="state" />
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,8 +92,37 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    pid, title, uid, pcontent, hits, goodnum, badnum, pdate
+    pid, title, uid, pcontent,pfile, hits, goodnum, badnum, pdate
   </sql>
+  <sql id="WithUser_Column_List">
+  	p.pid, p.title, p.uid, p.pcontent,p.pfile, p.hits, p.goodnum, p.badnum, p.pdate,u.uid, u.uname, u.openid, u.purl, u.gender, u.uclass, u.state
+  </sql>
+  
+  <!-- 联表查询 -->
+  <select id="selectByPrimaryKeyWithUser" resultMap="WithUserResultMap">
+  	select 
+    <include refid="WithUser_Column_List" />
+    from post p
+    left join we_user u on p.uid = u.uid
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByExampleWithUser" resultMap="WithUserResultMap">
+  	select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="WithUser_Column_List" />
+    from post p
+    left join we_user u on p.uid = u.uid
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  
   <select id="selectByExample" parameterType="com.wechat.bean.PostExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -104,10 +155,10 @@
   </delete>
   <insert id="insert" parameterType="com.wechat.bean.Post">
     insert into post (pid, title, uid, 
-      pcontent, hits, goodnum, 
+      pcontent,pfile, hits, goodnum, 
       badnum, pdate)
     values (#{pid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, 
-      #{pcontent,jdbcType=VARCHAR}, #{hits,jdbcType=VARCHAR}, #{goodnum,jdbcType=INTEGER}, 
+      #{pcontent,jdbcType=VARCHAR},#{pfile,jdbcType=VARCHAR}, #{hits,jdbcType=VARCHAR}, #{goodnum,jdbcType=INTEGER}, 
       #{badnum,jdbcType=INTEGER}, #{pdate,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wechat.bean.Post">
@@ -124,6 +175,9 @@
       </if>
       <if test="pcontent != null">
         pcontent,
+      </if>
+      <if test="pfile != null">
+        pfile,
       </if>
       <if test="hits != null">
         hits,
@@ -150,6 +204,9 @@
       </if>
       <if test="pcontent != null">
         #{pcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="pfile != null">
+        #{pfile,jdbcType=VARCHAR},
       </if>
       <if test="hits != null">
         #{hits,jdbcType=VARCHAR},
@@ -186,6 +243,9 @@
       <if test="record.pcontent != null">
         pcontent = #{record.pcontent,jdbcType=VARCHAR},
       </if>
+       <if test="record.pfile != null">
+        pfile = #{record.pfile,jdbcType=VARCHAR},
+      </if>
       <if test="record.hits != null">
         hits = #{record.hits,jdbcType=VARCHAR},
       </if>
@@ -209,6 +269,7 @@
       title = #{record.title,jdbcType=VARCHAR},
       uid = #{record.uid,jdbcType=INTEGER},
       pcontent = #{record.pcontent,jdbcType=VARCHAR},
+      pfile = #{record.pfile,jdbcType=VARCHAR},
       hits = #{record.hits,jdbcType=VARCHAR},
       goodnum = #{record.goodnum,jdbcType=INTEGER},
       badnum = #{record.badnum,jdbcType=INTEGER},
@@ -228,6 +289,9 @@
       </if>
       <if test="pcontent != null">
         pcontent = #{pcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="pfile != null">
+        pfile = #{pfile,jdbcType=VARCHAR},
       </if>
       <if test="hits != null">
         hits = #{hits,jdbcType=VARCHAR},
@@ -249,6 +313,7 @@
     set title = #{title,jdbcType=VARCHAR},
       uid = #{uid,jdbcType=INTEGER},
       pcontent = #{pcontent,jdbcType=VARCHAR},
+      pfile = #{pfile,jdbcType=VARCHAR},
       hits = #{hits,jdbcType=VARCHAR},
       goodnum = #{goodnum,jdbcType=INTEGER},
       badnum = #{badnum,jdbcType=INTEGER},

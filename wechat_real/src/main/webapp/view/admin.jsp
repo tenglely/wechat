@@ -151,7 +151,7 @@
 		 	<% if(user.getUclass().equals("超级管理员")) {%>
 		 	<button id="add_admin" class="btn btn-primary">添加新管理员</button>
 		 	<% } %>
-		 	<a class="btn btn-danger" href="${APP_PATH}/index.jsp">返回首页</a>
+		 	<a class="btn btn-danger" onclick="window.history.back(-1);">返回</a>
 		 	<br>
 			</center>
 		 </div>

@@ -12,6 +12,27 @@
     <result column="gdate" jdbcType="VARCHAR" property="gdate" />
     <result column="gneed" jdbcType="VARCHAR" property="gneed" />
   </resultMap>
+  <resultMap id="WithUserResultMap" type="com.wechat.bean.Greens">
+    <id column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="gname" jdbcType="VARCHAR" property="gname" />
+    <result column="gstyle" jdbcType="VARCHAR" property="gstyle" />
+    <result column="glabel" jdbcType="VARCHAR" property="glabel" />
+    <result column="gcover" jdbcType="VARCHAR" property="gcover" />
+    <result column="ghits" jdbcType="INTEGER" property="ghits" />
+    <result column="gwriter" jdbcType="VARCHAR" property="gwriter" />
+    <result column="gdate" jdbcType="VARCHAR" property="gdate" />
+    <result column="gneed" jdbcType="VARCHAR" property="gneed" />
+    
+    <association property="user" javaType="com.wechat.bean.User">
+    	<id column="uid" jdbcType="INTEGER" property="uid" />
+	    <result column="uname" jdbcType="VARCHAR" property="uname" />
+	    <result column="openid" jdbcType="VARCHAR" property="openid" />
+	    <result column="purl" jdbcType="VARCHAR" property="purl" />
+	    <result column="gender" jdbcType="INTEGER" property="gender" />
+	    <result column="uclass" jdbcType="VARCHAR" property="uclass" />
+	    <result column="state" jdbcType="VARCHAR" property="state" />
+    </association>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

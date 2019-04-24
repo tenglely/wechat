@@ -38,13 +38,16 @@ public class UserService {
 		return userList;
 	}
 
-
+	
 	public void update(User user) {
 		userMapper.updateByPrimaryKeySelective(user);
 	}
 
 	public List<User> getAll() {
-		return  userMapper.selectByExample(null);
+		UserExample userExample=new UserExample();
+		Criteria criteria=userExample.createCriteria();
+		criteria.andUclassEqualTo("用户");
+		return  userMapper.selectByExample(userExample);
 	}
 
 	public User getUserByUid(Integer id) {
@@ -77,6 +80,7 @@ public class UserService {
 	public List<User> findByState(String state) {
 		UserExample userExample=new UserExample();
 		Criteria criteria=userExample.createCriteria();
+		criteria.andUclassEqualTo("用户");
 		criteria.andStateLike("%"+state+"%");
 		return userMapper.selectByExample(userExample);
 	}
@@ -84,6 +88,7 @@ public class UserService {
 	public List<User> findByGender(Integer genders) {
 		UserExample userExample=new UserExample();
 		Criteria criteria=userExample.createCriteria();
+		criteria.andUclassEqualTo("用户");
 		criteria.andGenderEqualTo(genders);
 		return userMapper.selectByExample(userExample);
 	}

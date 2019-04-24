@@ -49,4 +49,13 @@ public class CommentService {
         criteria.andCtypeLike("%"+ctype+"%");
         return commentMapper.selectByExample(commentExample);
     }
+    
+    /**
+     * 根据type和typeid查找所有评论及其user数据
+     * @param commentExample
+     * @return
+     */
+	public List<Comment> findAllByTypeAndTypeid(CommentExample commentExample) {
+		return commentMapper.selectByExampleWithUser(commentExample);
+	}
 }

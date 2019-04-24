@@ -11,25 +11,15 @@
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
     <script type="text/javascript" charset="utf-8" src="/wechat_real/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
 
-    <style type="text/css">
-        div{
-            width:100%;
-        }
-    </style>
+    
 </head>
 <body>
-	<div>	
-        <form action="<%=request.getContextPath() %>/message" method="post">
-            <h1>编辑图文信息</h1>
-            <script id="editor" type="text/plain"
-                style="width:1024px;height:500px;"></script>
-            <button type="submit">提交并浏览</button>
-        </form>
-    </div>
-    <script type="text/javascript">
-        //实例化编辑器
-        //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-        var ue = UE.getEditor('editor');
-    </script>
+	<form action="/wechat_real/addPost" enctype="multipart/form-data" method="post">
+		<input type="text" name="title">
+		<input type="text" name="uid">
+		<input type="text" name="pcontent">
+		<input type="file" name="file">
+		<input type="submit">
+	</form>
 </body>
 </html>

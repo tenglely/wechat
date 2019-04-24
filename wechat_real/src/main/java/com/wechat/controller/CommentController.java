@@ -3,6 +3,8 @@ package com.wechat.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wechat.bean.Comment;
+import com.wechat.bean.CommentExample;
+import com.wechat.bean.CommentExample.Criteria;
 import com.wechat.bean.Greens;
 import com.wechat.bean.Msg;
 import com.wechat.bean.Post;
@@ -26,10 +28,7 @@ public class CommentController {
 	
 	@Autowired
 	private CommentService commentService;
-	@Autowired
-	private GreensService greensService;
-	@Autowired
-	private PostService postService;
+
 	/**
 	 * 1.添加一条评论
 	 * 前台传入
@@ -103,8 +102,8 @@ public class CommentController {
 	//public Msg findCommentByType()
 	@ResponseBody
 	@RequestMapping(value = "findcommentbytype",method = RequestMethod.GET)
-	public Msg findCommentByType(@RequestParam("ctype") String ctype){
-		PageHelper.startPage(1, 5);
+	public Msg findCommentByType(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam("ctype") String ctype){
+		PageHelper.startPage(pn,5);
 		List<Comment> comments=commentService.findAllByCtype(ctype);
 		PageInfo page = new PageInfo(comments,5);
 		return Msg.success().add("pageInfo", page);
@@ -116,27 +115,35 @@ public class CommentController {
 	//public Msg findCommentByUid()
 	@ResponseBody
 	@RequestMapping(value = "findcommentbyuid",method = RequestMethod.GET)
-	public Msg findCommentByUid(@RequestParam("uid") String uid){
+	public Msg findCommentByUid(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam("uid") String uid){
 		Integer cuid=Integer.parseInt(uid);
-		PageHelper.startPage(1, 5);
+		PageHelper.startPage(pn, 5);
 		List<Comment> comments=commentService.findAllByUid(cuid);
 		PageInfo page = new PageInfo(comments,5);
 		return Msg.success().add("pageInfo", page);
 	}
+	
 	/**
-	 * 测试
-	 * */
+	 * 查找某一greens或post的评论及user数据（联表查询）
+	 * 每次查10条一个分页
+	 * @param ctype(greens或post)
+	 * @param typeid (gid或pid)
+	 * @return
+	 */
+	@RequestMapping("/findComment")
 	@ResponseBody
-	@RequestMapping(value = "select_greens",method = RequestMethod.GET)
-	public Msg findGid(){
-		List<Greens> greens=greensService.findAll();
-		return Msg.success().add("green",greens);
+	public Msg findComment(@RequestParam(value="pn",defaultValue="1") Integer pn,
+			@RequestParam("ctype") String ctype,
+			@RequestParam("typeid") Integer typeid){
+		CommentExample commentExample=new CommentExample();
+		Criteria criteria=commentExample.createCriteria();
+		criteria.andCtypeEqualTo(ctype);
+		criteria.andTypeidEqualTo(typeid);
+		PageHelper.startPage(pn, 10);
+		List<Comment> list=commentService.findAllByTypeAndTypeid(commentExample);
+		System.out.println(list);
+		PageInfo page = new PageInfo(list,5);
+		return Msg.success().add("pageInfo", page);
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "select_post",method = RequestMethod.GET)
-	public Msg findPid(){
-		List<Post> posts=postService.findAll();
-		return Msg.success().add("post",posts);
-	}
 }

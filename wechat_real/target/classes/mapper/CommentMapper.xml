@@ -9,6 +9,24 @@
     <result column="typeid" jdbcType="INTEGER" property="typeid" />
     <result column="cdate" jdbcType="VARCHAR" property="cdate" />
   </resultMap>
+  <resultMap id="WithUserResultMap" type="com.wechat.bean.Comment">
+    <id column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="ctype" jdbcType="VARCHAR" property="ctype" />
+    <result column="typeid" jdbcType="INTEGER" property="typeid" />
+    <result column="cdate" jdbcType="VARCHAR" property="cdate" />
+    
+    <association property="user" javaType="com.wechat.bean.User">
+    	<id column="uid" jdbcType="INTEGER" property="uid" />
+	    <result column="uname" jdbcType="VARCHAR" property="uname" />
+	    <result column="openid" jdbcType="VARCHAR" property="openid" />
+	    <result column="purl" jdbcType="VARCHAR" property="purl" />
+	    <result column="gender" jdbcType="INTEGER" property="gender" />
+	    <result column="uclass" jdbcType="VARCHAR" property="uclass" />
+	    <result column="state" jdbcType="VARCHAR" property="state" />
+    </association>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -70,6 +88,34 @@
   <sql id="Base_Column_List">
     cid, uid, comment, ctype, typeid, cdate
   </sql>
+  <sql id="WithUser_Column_List">
+    c.cid, c.uid, c.comment, c.ctype, c.typeid, c.cdate,u.uid, u.uname, u.openid, u.purl, u.gender, u.uclass, u.state
+  </sql>
+  
+  <!-- 联表查询 -->
+  <select id="selectByPrimaryKeyWithUser" resultMap="WithUserResultMap">
+  	select 
+    <include refid="WithUser_Column_List" />
+    from comment c
+    left join we_user u on c.uid = u.uid
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByExampleWithUser" resultMap="WithUserResultMap">
+  	select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="WithUser_Column_List" />
+    from comment c
+    left join we_user u on c.uid = u.uid
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  
   <select id="selectByExample" parameterType="com.wechat.bean.CommentExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

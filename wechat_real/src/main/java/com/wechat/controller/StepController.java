@@ -95,9 +95,9 @@ public class StepController {
 	            System.out.println(path+"   "+filename);
 	            String before_photo=step.getSphoto();
 	            step.setSphoto(filename);
-	            //删除原图片
-	            File file1=new File(path+before_photo);
-	            boolean a=file1.delete();
+	            //删除原图片,测试阶段先不删
+//	            File file1=new File(path+before_photo);
+//	            boolean a=file1.delete();
 	        } 
 		 stepService.updateStep(step);
 		 Step step2=stepService.findStepBySid(sid);

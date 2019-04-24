@@ -201,8 +201,8 @@
 								</div><br> 
 								<div class="input-group col-md-6">
 									<span class="input-group-addon" style="font-size: 16px;"><b>菜品简介：</b></span>
-						            <script id="editor" type="text/plain"
-						                style="width:850px;height:400px;">${greens.gneed}</script>
+						           
+						            <textarea rows="15" cols="50" style="font-size: 20px;" name="editorValue">${greens.gneed}</textarea>    
 								</div><br>
 								<div class="input-group col-md-6 col-md-offset-3">
 									<input type="submit" class="btn btn-primary" value="确认并结束">

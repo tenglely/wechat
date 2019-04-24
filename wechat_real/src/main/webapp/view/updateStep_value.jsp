@@ -92,6 +92,8 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-12" id="main" style="background-color: #e3e3e8;height: 850px;">
+							<button class="btn btn-warning" onclick="window.history.back(-1);">返回上一页</button>
+							<br>
 							<p id="step_p" style="font-size: 20px;color: red;"></p>
 							<form action="${APP_PATH}/updateStep" enctype="multipart/form-data" method="post">
 								<input type="hidden" id="sid" name="sid" value="<%=request.getParameter("sid")%>">
