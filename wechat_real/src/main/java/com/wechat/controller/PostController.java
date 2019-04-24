@@ -8,6 +8,7 @@ import com.wechat.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+<<<<<<< HEAD
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -18,6 +19,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+=======
+
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
 
 @Controller
 public class PostController {
@@ -117,10 +123,20 @@ public class PostController {
 	 */
 	//public Msg findPostByUid(int uid)
 	@ResponseBody
+<<<<<<< HEAD
 	@RequestMapping(value = "findpostbypid",method = RequestMethod.GET)
 	public Msg findPostBypid(@RequestParam("pid") Integer pid){
 		Post post=postService.findPostByPid(pid);		
 		return Msg.success().add("post", post);
+=======
+	@RequestMapping(value = "findpostbyuid",method = RequestMethod.GET)
+	public Msg findPostByuid(@RequestParam("uid") String uid){
+		Integer uids=Integer.parseInt(uid);
+		PageHelper.startPage(1, 5);
+		List<Post> posts=postService.getPostByUid(uids);
+		PageInfo page = new PageInfo(posts,5);
+		return Msg.success().add("pageInfo", page);
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
 	}
 
 	/**

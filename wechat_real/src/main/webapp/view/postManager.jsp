@@ -164,10 +164,18 @@
 										<input type="checkbox" id="check_all"/>
 									</th>
 									<th>#</th>
+<<<<<<< HEAD
 									<th>标题</th>
 									<th>用户编号</th>
 									<th>点击量</th>
 									<th>日期</th>
+=======
+									<th>title</th>
+									<th>uid</th>
+									<th>pcontent</th>
+									<th>hits</th>
+									<th>pdate</th>
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
 									<th>操作</th>
 								</tr>
 								</thead>
@@ -195,6 +203,10 @@
                         //去首页
                         to_page(1);
                     });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                     function to_page(pn) {
                         var select_key=document.getElementById("emp_select").value;
                         var select_value = $('#empselect_input').val();//获取值
@@ -209,9 +221,17 @@
                                 build_page_info(result);
                                 //3.显示分页条信息
                                 build_page_nav(result);
+<<<<<<< HEAD
                             }
                         });
                     }
+=======
+
+                            }
+                        });
+                    }
+
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                     function build_emps_table(result){
                         $("#emps_table tbody").empty();
                         var emps=result.extend.pageInfo.list;
@@ -220,6 +240,7 @@
                             var pidTd=$("<td></td>").append(item.pid);
                             var titleTd=$("<td></td>").append(item.title);
                             var uidTd=$("<td></td>").append(item.uid);
+<<<<<<< HEAD
                             var hitsTd=$("<td></td>").append(item.hits);
                             var pdateTd=$("<td></td>").append(item.pdate);
                             var seeBtn=$("<a></a>").addClass("btn btn-primary btn-sm").attr("href","${APP_PATH}/view/seePost.jsp?pid="+item.pid)
@@ -230,17 +251,37 @@
                             //为删除按钮添加一个自定义的属性来表示当前的删除的员id
                             delBtn.attr("del-id",item.pid);
                             var btnTd = $("<td></td>").append(seeBtn).append(" ").append(delBtn);
+=======
+                            var pcontentTd=$("<td></td>").append(item.pcontent);
+                            var hitsTd=$("<td></td>").append(item.hits);
+                            var pdateTd=$("<td></td>").append(item.pdate);
+
+
+                            var delBtn=$("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
+                                .append($("<span></span>").addClass("glyphicon glyphicon-trash").append("删除"));
+                            //为删除按钮添加一个自定义的属性来表示当前的删除的员id
+                            delBtn.attr("del-id",item.pid);
+                            var btnTd = $("<td></td>").append(delBtn);
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                             //append方法执得完以后还是返回原来的元素
                             $("<tr></tr>").append(checkBoxTd)
                                 .append(pidTd)
                                 .append(titleTd)
                                 .append(uidTd)
+<<<<<<< HEAD
+=======
+                                .append(pcontentTd)
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                                 .append(hitsTd)
                                 .append(pdateTd)
                                 .append(btnTd)
                                 .appendTo("#emps_table tbody")
                         })
                     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                     //解析分页信息
                     function build_page_info(result) {
                         $("#page_info_area").empty();
@@ -249,6 +290,10 @@
                             + result.extend.pageInfo.total + "条记录");
                         totalRecord=result.extend.pageInfo.total;
                         currentPage=result.extend.pageInfo.pageNum;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                     }
                     //解析显示分页条
                     function build_page_nav(result){
@@ -302,8 +347,14 @@
                         var navEl = $("<nav></nav>").append(ul);
                         navEl.appendTo("#page_nav_area");
                     }
+<<<<<<< HEAD
                     $(document).on("click",".delete_btn",function () {
                         var uid=$(this).parents("tr").find("td:eq(2)").text();
+=======
+
+                    $(document).on("click",".delete_btn",function () {
+                        var uid=$(this).parents("tr").find("td:eq(3)").text();
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                         var pid=$(this).attr("del-id");
                         if (confirm("确认删除【" + uid + "】吗？")) {
                             $.ajax({
@@ -317,6 +368,10 @@
                             });
                         }
                     });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                     //完成全选 、全不选功能
                     $("#check_all").click(function () {
                         //attr获取checked是undefined
@@ -330,6 +385,10 @@
                         var flag = $(".check_item:checked").length == $(".check_item").length;
                         $("#check_all").prop("checked", flag);
                     });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                     //点击全部删除，就批量删除
                     $("#emp_delete_all_btn").click(function () {
                         //提示要删除的员工姓名
@@ -342,7 +401,11 @@
                         //去除多余的逗号
                         empunames = empunames.substring(0, empunames.length - 1);
                         del_list = del_list.substring(0, del_list.length - 1);
+<<<<<<< HEAD
                         if(confirm("确认删除所有勾选项吗？")){
+=======
+                        if(confirm("确认删除【"+empunames+"】吗？")){
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
                             //发送ajax请求
                             $.ajax({
                                 url : "${APP_PATH}/deletpostbypid/" + del_list,
@@ -358,6 +421,10 @@
                     $("#select_btn").click(function () {
                         to_page(1);
                     });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
 				</script>
 
 
