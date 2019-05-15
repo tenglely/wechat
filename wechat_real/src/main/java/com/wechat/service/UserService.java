@@ -14,7 +14,8 @@ public class UserService {
 	
 	@Autowired
 	private UserMapper userMapper;
-
+	
+	//添加用户信息
 	public void addUser(User user) {
 		// TODO Auto-generated method stub
 		userMapper.insertSelective(user);
@@ -38,18 +39,20 @@ public class UserService {
 		return userList;
 	}
 
-	
+	//修改用户信息
 	public void update(User user) {
 		userMapper.updateByPrimaryKeySelective(user);
 	}
-
+	
+	//查询所有用户
 	public List<User> getAll() {
 		UserExample userExample=new UserExample();
 		Criteria criteria=userExample.createCriteria();
 		criteria.andUclassEqualTo("用户");
 		return  userMapper.selectByExample(userExample);
 	}
-
+	
+	//根据uid查找一条用户
 	public User getUserByUid(Integer id) {
 		return userMapper.selectByPrimaryKey(id);
 	}
@@ -57,11 +60,13 @@ public class UserService {
 	public void updatUser(User user) {
 		userMapper.updateByPrimaryKey(user);
 	}
-
+	
+	//根据uid删除一条用户数据
 	public void deleteEmp(Integer id) {
 		userMapper.deleteByPrimaryKey(id);
 	}
-
+	
+	//批量删除用户数据
 	public void deleteBatch(List<Integer> ids) {
 		UserExample userExample=new UserExample();
 		Criteria criteria=userExample.createCriteria();
@@ -69,14 +74,16 @@ public class UserService {
 		criteria.andUidIn(ids);
 		userMapper.deleteByExample(userExample);
 	}
-
+	
+	//根据uname查找所有用户
 	public List<User> findByUname(String uname) {
 		UserExample userExample=new UserExample();
 		Criteria criteria=userExample.createCriteria();
 		criteria.andUnameLike("%"+uname+"%");
 		return userMapper.selectByExample(userExample);
 	}
-
+	
+	//根据state用户状态查找所有用户
 	public List<User> findByState(String state) {
 		UserExample userExample=new UserExample();
 		Criteria criteria=userExample.createCriteria();
@@ -84,7 +91,8 @@ public class UserService {
 		criteria.andStateLike("%"+state+"%");
 		return userMapper.selectByExample(userExample);
 	}
-
+	
+	//根据性别gender查找所有用户
 	public List<User> findByGender(Integer genders) {
 		UserExample userExample=new UserExample();
 		Criteria criteria=userExample.createCriteria();
@@ -92,7 +100,8 @@ public class UserService {
 		criteria.andGenderEqualTo(genders);
 		return userMapper.selectByExample(userExample);
 	}
-
+	
+	//根据openid查找所有用户
 	public List<User> findByOpenid(String openid) {
 		UserExample userExample=new UserExample();
 		Criteria criteria=userExample.createCriteria();

@@ -113,5 +113,13 @@ public class GreensService {
 		return greensMapper.selectByExample(greensExample);
 	}
 	
+	/**
+	 * 统计菜品数量
+	 * @return
+	 */
+	public int countNum() {
+		return (int) greensMapper.countByExample(null);
+	}
+	
 	
 }

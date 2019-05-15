@@ -11,12 +11,21 @@ import com.wechat.bean.Post;
 import com.wechat.service.CommentService;
 import com.wechat.service.GreensService;
 import com.wechat.service.PostService;
+import com.wechat.util.Keyword;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 用户评论控制类
@@ -36,27 +45,68 @@ public class CommentController {
 		评论内容：comment;
 		评论类型: ctype;(菜谱或帖子,greens,post)
 		评论类型的编号：typeid;(gid或pid)
-		评论时间 cdate;(String)
 	 */
 	//public Msg addComment()
 	@ResponseBody
 	@RequestMapping(value = "addcomment",method = RequestMethod.GET)
-	public Msg addComment(@RequestParam("uid") String uid,@RequestParam("ctype") String ctype,
-						  @RequestParam("typeid") String typeid,@RequestParam("comment") String comment,
-						  @RequestParam("cdate") String cdate){
+	public Msg addComment(HttpServletRequest request,
+						  @RequestParam("uid") String uid,@RequestParam("ctype") String ctype,
+						  @RequestParam("typeid") String typeid,@RequestParam("comment") String comment){
 		Integer uids=Integer.parseInt(uid);
 		Integer typeids=Integer.parseInt(typeid);
 		Comment comment1=new Comment();
 		comment1.setUid(uids);
 		comment1.setCtype(ctype);
 		comment1.setTypeid(typeids);
+		//关键词屏蔽
+		String path = request.getServletContext().getRealPath("/image/");
+		comment=Keyword.keyword(comment, path);
+		System.out.println(comment);
 		comment1.setComment(comment);
-		comment1.setCdate(cdate);
+		//评论时间
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(currentTime);
+		comment1.setCdate(dateString);
 		commentService.insertComment(comment1);
 		return Msg.success();
-
 	}
-
+	
+	/**
+	 * 网页用户添加菜品评论
+	 * @param request
+	 * @param response
+	 * @param uid
+	 * @param ctype
+	 * @param typeid
+	 * @param comment
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "useraddcomment",method = RequestMethod.GET)
+	public void useraddComment(HttpServletRequest request,HttpServletResponse response,
+						  @RequestParam("uid") String uid,@RequestParam("ctype") String ctype,
+						  @RequestParam("typeid") String typeid,@RequestParam("editorValue") String comment) throws ServletException, IOException{
+		Integer uids=Integer.parseInt(uid);
+		Integer typeids=Integer.parseInt(typeid);
+		Comment comment1=new Comment();
+		comment1.setUid(uids);
+		comment1.setCtype(ctype);
+		comment1.setTypeid(typeids);
+		//关键词屏蔽
+		String path = request.getServletContext().getRealPath("/image/");
+		comment=Keyword.keyword(comment, path);
+		System.out.println(comment);
+		comment1.setComment(comment);
+		//评论时间
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(currentTime);
+		comment1.setCdate(dateString);
+		commentService.insertComment(comment1);
+		request.getRequestDispatcher("/userview/single.jsp?gid="+typeid).forward(request,response);
+	}
+	
 	/**
 	 * 2.查出所有评论记录
 	 */
@@ -136,6 +186,7 @@ public class CommentController {
 			@RequestParam("ctype") String ctype,
 			@RequestParam("typeid") Integer typeid){
 		CommentExample commentExample=new CommentExample();
+		commentExample.setOrderByClause("cid DESC");
 		Criteria criteria=commentExample.createCriteria();
 		criteria.andCtypeEqualTo(ctype);
 		criteria.andTypeidEqualTo(typeid);

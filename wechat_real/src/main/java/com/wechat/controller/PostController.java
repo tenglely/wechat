@@ -5,10 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.wechat.bean.Msg;
 import com.wechat.bean.Post;
 import com.wechat.service.PostService;
+import com.wechat.util.Keyword;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-<<<<<<< HEAD
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -19,11 +20,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-=======
-
-import java.util.ArrayList;
-import java.util.List;
->>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
 
 @Controller
 public class PostController {
@@ -38,6 +34,8 @@ public class PostController {
 	 * @param pn
 	 * @return
 	 */
+	@RequestMapping("/wechat_findPost")
+	@ResponseBody
 	public Msg wechat_post(@RequestParam(value="pn",defaultValue="1") Integer pn){
 		PageHelper.startPage(pn, 8);
 		List<Post> posts=postService.getAll();
@@ -60,7 +58,12 @@ public class PostController {
 			@RequestParam(value="pcontent")String pcontent,
 			@RequestParam("file") MultipartFile file) throws Exception{
 		Post post=new Post();
+		
+		//关键词屏蔽
+		String patha = request.getServletContext().getRealPath("/image/");
+		title=Keyword.keyword(title, patha);
 		post.setTitle(title);
+		
 		post.setUid(uid);
 		post.setHits("0");
 		post.setGoodnum(0);
@@ -69,7 +72,11 @@ public class PostController {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = formatter.format(currentTime);
 		post.setPdate(dateString);
+		
+		//关键词屏蔽
+		pcontent=Keyword.keyword(pcontent, patha);
 		post.setPcontent(pcontent);
+		
 		post.setPfile(null);
 		//如果文件不为空，写入上传路径
 		 if(!file.isEmpty()) {
@@ -123,20 +130,10 @@ public class PostController {
 	 */
 	//public Msg findPostByUid(int uid)
 	@ResponseBody
-<<<<<<< HEAD
 	@RequestMapping(value = "findpostbypid",method = RequestMethod.GET)
 	public Msg findPostBypid(@RequestParam("pid") Integer pid){
 		Post post=postService.findPostByPid(pid);		
 		return Msg.success().add("post", post);
-=======
-	@RequestMapping(value = "findpostbyuid",method = RequestMethod.GET)
-	public Msg findPostByuid(@RequestParam("uid") String uid){
-		Integer uids=Integer.parseInt(uid);
-		PageHelper.startPage(1, 5);
-		List<Post> posts=postService.getPostByUid(uids);
-		PageInfo page = new PageInfo(posts,5);
-		return Msg.success().add("pageInfo", page);
->>>>>>> 1d75ad4c230f02b93e97b53b0fe111d1912e26f9
 	}
 
 	/**
@@ -245,5 +242,20 @@ public class PostController {
 		post.setBadnum(post.getBadnum()-1);
 		postService.updatePost(post);
 		return Msg.success().add("post", post);
+	}
+	
+	/**
+	 * 前台获取3条数据
+	 * 按点击量高低
+	 * @param pn
+	 * @return
+	 */
+	@RequestMapping("/getpostbyhits")
+	@ResponseBody
+	public Msg getpost(@RequestParam(value="pn",defaultValue="1") Integer pn){
+		PageHelper.startPage(pn, 3);
+		List<Post> posts=postService.getAllByHot();
+		PageInfo page=new PageInfo(posts,5);
+		return Msg.success().add("pageInfo", page);
 	}
 }

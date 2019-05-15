@@ -103,6 +103,10 @@
 						<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
 						 分享贴信息管理
 					 </a>
+					 <a class="list-group-item" href="${APP_PATH}/view/keyword.jsp">
+						<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+						 关键词屏蔽
+					 </a>
 				</div>
 			</div>
 			<div class="col-md-10">

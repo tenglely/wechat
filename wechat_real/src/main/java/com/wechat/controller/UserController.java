@@ -48,10 +48,9 @@ public class UserController {
 	 */
 	//public Msg addUser()
 	@ResponseBody
-	@RequestMapping(value ="/adduser" ,method = RequestMethod.PUT)
+	@RequestMapping(value ="/adduser")
 	public Msg addUser(@RequestParam("uname") String uname,@RequestParam("purl") String purl,
-					   @RequestParam("openid") String openid,HttpSession httpSession){
-		int gender=123;
+					   @RequestParam("openid") String openid,@RequestParam("gender") Integer gender,HttpSession httpSession){
 		String uclass="用户";
 		String state="yes";
 		User user=new User();
@@ -93,7 +92,12 @@ public class UserController {
 	 * 2、根据session,拿出user对象到前台
 	 * 	    场景使用：用户点击“我的”或进行评论，调用此方法直接拿到用户信息
 	 */
-	//public Msg getUserMessage()
+	@ResponseBody
+	@RequestMapping(value ="/getuser")
+	public Msg getUserMessage(HttpSession httpSession){
+		User user=(User) httpSession.getAttribute("user");
+		return Msg.success().add("user", user);
+	}
 
 	/**
 	 * 3、后台查询所有用户信息
@@ -227,7 +231,15 @@ public class UserController {
 		return Msg.success().add("pageInfo", page);
 	}
   
-  //管理员登录
+	/**
+	 * /管理员登录
+	 * @param request
+	 * @param response
+	 * @param uname
+	 * @param openid
+	 * @throws ServletException
+	 * @throws IOException
+	 */
   @RequestMapping(value="userlogin")
   public void userlogin(HttpServletRequest request,
 			HttpServletResponse response,
@@ -242,6 +254,32 @@ public class UserController {
 		  HttpSession session=request.getSession();
 		  session.setAttribute("date", "登录失败，请重新登录");
 		  request.getRequestDispatcher("/view/login.jsp").forward(request, response);
+	  }
+  }
+  
+  /**
+   * 用户登录
+   * @param request
+   * @param response
+   * @param uname
+   * @param openid
+   * @throws ServletException
+   * @throws IOException
+   */
+  @RequestMapping(value="peoplelogin")
+  public void peoplelogin(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam("uname") String uname,
+			@RequestParam("openid") String openid) throws ServletException, IOException{
+	  User user=userService.loging(uname,openid);
+	  if(user!=null){
+		  HttpSession session=request.getSession();
+		  session.setAttribute("user", user);
+		  request.getRequestDispatcher("/userview/myset.jsp").forward(request, response);
+	  }else{
+		  HttpSession session=request.getSession();
+		  session.setAttribute("state", "登录失败，请重新登录");
+		  request.getRequestDispatcher("/userview/myset.jsp").forward(request, response);
 	  }
   }
   
@@ -324,6 +362,55 @@ public class UserController {
 	  user.setUclass("管理员");
 	  userService.addUser(user);
 	  return Msg.success();
+  }
+  
+  /**
+   * 修改用户个人设置
+   * @param request
+   * @param response
+   * @param uid
+   * @param file
+   * @param uname
+   * @param openid
+   * @throws Exception
+   */
+  @RequestMapping(value="updateuser")
+  public void updateuser(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="uid")Integer uid,
+			@RequestParam("file") MultipartFile file,
+			@RequestParam(value="uname")String uname,
+			@RequestParam(value="openid")String openid
+			)throws Exception{
+	  User user=userService.getUserByUid(uid);
+	  user.setOpenid(openid);
+	  user.setUname(uname);
+	  if(!file.isEmpty()) {
+          //上传文件路径:Tomcat虚拟路径
+          String path = request.getServletContext().getRealPath("/image/");
+          //上传文件名
+          String uuid=UUID.randomUUID().toString().substring(0, 5);
+          String filename =uuid+file.getOriginalFilename();
+          File filepath = new File(path,filename);
+          //判断路径是否存在，如果不存在就创建一个
+          if (!filepath.getParentFile().exists()) { 
+              filepath.getParentFile().mkdirs();
+          }
+          //将上传文件保存到一个目标文件当中
+          file.transferTo(new File(path + File.separator + filename));
+          System.out.println(path+"   "+filename);
+          //删除原图片
+          String before_photo=user.getPurl();
+          if(!before_photo.equals("manager.jpg")&&!before_photo.equals("user01.jpg")&&!before_photo.equals("user02.jpg")){
+          File file1=new File(path+before_photo);
+          boolean a=file1.delete();
+          }
+          user.setPurl(filename);
+      }
+	  userService.updatUser(user);
+	  HttpSession session=request.getSession();
+	  session.setAttribute("user", user);
+	  request.getRequestDispatcher("/userview/myset.jsp").forward(request, response);
   }
   
 }

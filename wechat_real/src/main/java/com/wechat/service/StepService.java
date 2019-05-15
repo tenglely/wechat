@@ -57,7 +57,12 @@ public class StepService {
 	public void updateStep(Step step) {
 		stepMapper.updateByPrimaryKey(step);
 	}
-
+	
+	/**
+	 * 根据菜品编号gid统计菜品步骤数
+	 * @param gid
+	 * @return
+	 */
 	public int countStep(Integer gid) {
 		StepExample stepExample=new StepExample();
 		Criteria criteria=stepExample.createCriteria();

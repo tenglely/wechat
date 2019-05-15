@@ -3,6 +3,7 @@ package com.wechat.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -125,6 +126,28 @@ public class GreensController {
 		List<Greens> list=greensService.findAll(greensExample);
 		PageInfo page=new PageInfo(list,5);
 		return Msg.success().add("pageInfo", page);
+	}
+	
+	/**
+	 * 随机推荐菜品
+	 * @return
+	 */
+	@RequestMapping("/random_greens")
+	@ResponseBody
+	public Msg random_greens(){
+		int num=greensService.countNum();
+		System.out.println("总数："+num);
+		List<Greens> list=new ArrayList<>();
+		while(list.size()<8){
+			int i=(int)(Math.random()*num)+1;
+			System.out.println("随机的gid为："+i);
+			Greens greens=greensService.findOneByGid(i);
+			if(greens!=null){
+				list.add(greens);
+			}
+		}
+		System.out.println(list);
+		return Msg.success().add("list", list);
 	}
 	
 	/**
