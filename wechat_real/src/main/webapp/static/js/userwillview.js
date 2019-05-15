@@ -1,5 +1,5 @@
 		//项目前缀
-		var war="http://localhost:8080/wechat_real";
+		var war="http://www.txkk.online/wechat_real";
 		
 		//加载贴子
 		function putpost(pn){
