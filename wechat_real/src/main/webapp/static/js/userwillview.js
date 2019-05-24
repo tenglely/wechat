@@ -1,5 +1,5 @@
 		//项目前缀
-		var war="http://www.txkk.online/wechat_real";
+		var war="http://localhost:8080/wechat_real";
 		
 		//查找某一用户的所有评论
 		function addmycomment(pn,uid){
