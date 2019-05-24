@@ -1,3 +1,4 @@
+<%@page import="com.wechat.bean.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -30,6 +31,9 @@
 		font-family: STHupo;
 		font-size:20px;
 		margin-left: 10px;
+	}
+	a{
+		color: #000;
 	}
 	.ppo{
 		font-size:16px;
@@ -135,9 +139,46 @@
 			<!-- 悬浮框 -->
 		   	<div class="guide">
 				<div class="guide-wrap">
-					<a href="javascript:window.scrollTo(0,0)" class="top" title="回顶部"><span>回顶部</span></a>
+					<a href="javascript:window.scrollTo(0,0)" style="background-image: url('${APP_PATH}/image/向上.png');" title="回顶部"><span>回顶部</span></a>
+					<a id="addp" title="发贴" style="background-image: url('${APP_PATH}/image/add.png');"><span>发贴</span></a>
 				</div>
 			</div>
+			
+				<div class="modal fade" id="update_admin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalLabel">分享/交流你的菜品故事</h4>
+						      </div>
+						 
+						      <div class="modal-body">
+						      	<div class="row" style="margin-left: 10px;">
+						      	<%
+									if(session.getAttribute("user")==null||session.getAttribute("user")==""){	
+								%>
+									<h4>你还没有登录，登录后才能评论</h4>
+									<a href="${APP_PATH}/userview/myset.jsp">跳去登录/注册</a>
+								<% }else{ 
+									User user=(User)session.getAttribute("user");
+								%>
+						      	<form action="${APP_PATH}/useraddPost" enctype="multipart/form-data" method="post">
+									<label>分享贴标题：</label>
+									<label><input type="text" name="title"></label><br>
+									<label>内&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;容：</label><br>
+									<label style="margin-left: 100px;"><textarea rows="8" cols="40" name="pcontent"></textarea></label><br>
+									<input type="hidden" name="uid" value="<%=user.getUid()%>">
+									<label>添加图片:</label><br>
+									<label style="margin-left: 100px;"><input class="btn btn-info" type="file" name="file"></label><br>
+									<label style="margin-left: 450px;"><input class="btn btn-primary" type="submit"></label>
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								</form>
+								<%} %>
+						      </div></div>
+						      
+						      
+				</div>
+			
 	<script type="text/javascript">
 		$(function(){
 			//加载每日热门
@@ -146,6 +187,11 @@
 			puthotpost();
 			//加载贴子
 			putpost(1);
+		});
+		
+		//弹出发帖框
+		$("#addp").click(function(){
+			$("#update_admin").modal();
 		});
 		
 	</script>

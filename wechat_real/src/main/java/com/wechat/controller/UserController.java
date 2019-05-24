@@ -413,4 +413,29 @@ public class UserController {
 	  request.getRequestDispatcher("/userview/myset.jsp").forward(request, response);
   }
   
+  
+  	@ResponseBody
+	@RequestMapping(value ="/webadduser")
+	public void webaddUser(HttpServletRequest request,HttpServletResponse response,
+					   @RequestParam("uname") String uname,
+					   @RequestParam("openid") String openid,
+					   @RequestParam("gender") Integer gender) throws ServletException, IOException{
+		String uclass="用户";
+		String state="yes";
+		User user=new User();
+		System.out.println("用户不存在，可以进行添加");
+		user.setUname(uname);
+		user.setOpenid(openid);
+		user.setGender(gender);
+		user.setPurl("user01.jpg");
+		user.setUclass(uclass);
+		user.setState(state);
+		//把用户加入到用户表中
+		userService.addUser(user);
+		User user2=userService.loging(uname,openid);
+		HttpSession session=request.getSession();
+		session.setAttribute("user", user2);
+		request.getRequestDispatcher("/userview/myset.jsp").forward(request, response);
+	}
+  
 }

@@ -63,7 +63,7 @@ public class WeChatController {
 	 */
 	@RequestMapping(value = "/checkuser", produces = {"application/json;charset=UTF-8" })
     @ResponseBody
-    public String wxcheck(@RequestParam(value="code") String code,
+    public Msg wxcheck(@RequestParam(value="code") String code,
     		@RequestParam(value = "appid") String appid,
     		@RequestParam(value = "secret") String secret){
         String url = "https://api.weixin.qq.com/sns/jscode2session";
@@ -80,9 +80,9 @@ public class WeChatController {
         System.out.println(model.getOpenid());
         boolean result=userService.checkopenid(model.getOpenid());
         if(!result)
-        	return "true";
+        	return Msg.success().add("pan", "true").add("openid", model.getOpenid());
         else
-        	return "false";
+        	return Msg.success().add("pan", "false").add("openid", model.getOpenid());
     }
 	
 	

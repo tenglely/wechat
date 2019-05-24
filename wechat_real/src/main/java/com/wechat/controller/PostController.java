@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class PostController {
@@ -65,7 +66,7 @@ public class PostController {
 		post.setTitle(title);
 		
 		post.setUid(uid);
-		post.setHits("0");
+		post.setHits(0);
 		post.setGoodnum(0);
 		post.setBadnum(0);
 		Date currentTime = new Date();
@@ -183,6 +184,21 @@ public class PostController {
 		}
 
 	}
+	
+	/**
+	 * 根据uid，查找出所有post数据
+	 * @param pn
+	 * @param uid
+	 * @return
+	 */
+	@RequestMapping("/findpostByuid")
+	@ResponseBody
+	public Msg findpostByuid(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam("uid")Integer uid){
+		PageHelper.startPage(pn, 5);
+		List<Post> posts=postService.getPostByUid(uid);
+		PageInfo page=new PageInfo(posts,5);
+		return Msg.success().add("pageInfo", page);
+	}
 
 	/**
 	 * 5、小程序根据贴子编号:pid查找一条数据(点击量：hits 数量加1)
@@ -191,7 +207,8 @@ public class PostController {
 	@ResponseBody
 	public Msg addHits(@RequestParam(value="pid")Integer pid){
 		Post post=postService.findPostByPid(pid);
-		post.setHits(post.getHits()+1);
+		int i=post.getHits()+1;
+		post.setHits(i);
 		postService.updatePost(post);
 		return Msg.success().add("post", post);
 	}
@@ -205,6 +222,7 @@ public class PostController {
 		Post post=postService.findPostByPid(pid);
 		post.setGoodnum(post.getGoodnum()+1);
 		postService.updatePost(post);
+		System.out.println("success");
 		return Msg.success().add("post", post);
 	}
 	
@@ -229,6 +247,7 @@ public class PostController {
 		Post post=postService.findPostByPid(pid);
 		post.setBadnum(post.getBadnum()+1);
 		postService.updatePost(post);
+		System.out.println("success");
 		return Msg.success().add("post", post);
 	}
 	
@@ -245,7 +264,7 @@ public class PostController {
 	}
 	
 	/**
-	 * 前台获取3条数据
+	 * 前台网页获取3条数据
 	 * 按点击量高低
 	 * @param pn
 	 * @return
@@ -257,5 +276,61 @@ public class PostController {
 		List<Post> posts=postService.getAllByHot();
 		PageInfo page=new PageInfo(posts,5);
 		return Msg.success().add("pageInfo", page);
+	}
+	
+	/**
+	 * 网页版添加一条贴子
+	 * 内容为文字+图片
+	 * 场景为：用户编写文字，然后添加图片，然后上传文字和上传图片
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 */
+	@RequestMapping("/useraddPost")
+	public void useraddPost(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(value="title")String title,
+			@RequestParam(value="uid")Integer uid,
+			@RequestParam(value="pcontent")String pcontent,
+			@RequestParam("file") MultipartFile file) throws Exception{
+		Post post=new Post();
+		
+		//关键词屏蔽
+		String patha = request.getServletContext().getRealPath("/image/");
+		title=Keyword.keyword(title, patha);
+		post.setTitle(title);
+		
+		post.setUid(uid);
+		post.setHits(0);
+		post.setGoodnum(0);
+		post.setBadnum(0);
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(currentTime);
+		post.setPdate(dateString);
+		
+		//关键词屏蔽
+		pcontent=Keyword.keyword(pcontent, patha);
+		post.setPcontent(pcontent);
+		
+		post.setPfile(null);
+		//如果文件不为空，写入上传路径
+		 if(!file.isEmpty()) {
+	            //上传文件路径:Tomcat虚拟路径
+	            String path = request.getServletContext().getRealPath("/image/");
+	            //上传文件名
+	            String filename = file.getOriginalFilename();
+	            File filepath = new File(path,filename);
+	            //判断路径是否存在，如果不存在就创建一个
+	            if (!filepath.getParentFile().exists()) { 
+	                filepath.getParentFile().mkdirs();
+	            }
+	            //将上传文件保存到一个目标文件当中
+	            file.transferTo(new File(path + File.separator + filename));
+	            System.out.println(path+"   "+filename);
+	            post.setPfile(filename);
+	        } 
+		 postService.addpost(post);
+		 System.out.println("post添加成功");
+		 Post post2=postService.getAll().get(0);
+		 request.getRequestDispatcher("/userview/seeonepost.jsp?pid="+post2.getPid()).forward(request, response);;
 	}
 }

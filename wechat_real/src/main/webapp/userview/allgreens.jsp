@@ -97,7 +97,7 @@
 		   	   		</ul>
 		   	   	</li>
 		   	    <div class="but">
-			       <a href="#">更多讨论<i class="but_arrow"> </i></a>
+			       <a href="${APP_PATH}/userview/userpost.jsp">更多讨论<i class="but_arrow"> </i></a>
 			    </div>
 		   	   </ul>
 		   	</div>

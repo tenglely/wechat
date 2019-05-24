@@ -7,7 +7,7 @@
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="pcontent" jdbcType="VARCHAR" property="pcontent" />
     <result column="pfile" jdbcType="VARCHAR" property="pfile" />
-    <result column="hits" jdbcType="VARCHAR" property="hits" />
+    <result column="hits" jdbcType="INTEGER" property="hits" />
     <result column="goodnum" jdbcType="INTEGER" property="goodnum" />
     <result column="badnum" jdbcType="INTEGER" property="badnum" />
     <result column="pdate" jdbcType="VARCHAR" property="pdate" />
@@ -18,7 +18,7 @@
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="pcontent" jdbcType="VARCHAR" property="pcontent" />
     <result column="pfile" jdbcType="VARCHAR" property="pfile" />
-    <result column="hits" jdbcType="VARCHAR" property="hits" />
+    <result column="hits" jdbcType="INTEGER" property="hits" />
     <result column="goodnum" jdbcType="INTEGER" property="goodnum" />
     <result column="badnum" jdbcType="INTEGER" property="badnum" />
     <result column="pdate" jdbcType="VARCHAR" property="pdate" />
@@ -158,7 +158,7 @@
       pcontent,pfile, hits, goodnum, 
       badnum, pdate)
     values (#{pid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, 
-      #{pcontent,jdbcType=VARCHAR},#{pfile,jdbcType=VARCHAR}, #{hits,jdbcType=VARCHAR}, #{goodnum,jdbcType=INTEGER}, 
+      #{pcontent,jdbcType=VARCHAR},#{pfile,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, #{goodnum,jdbcType=INTEGER}, 
       #{badnum,jdbcType=INTEGER}, #{pdate,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wechat.bean.Post">
@@ -209,7 +209,7 @@
         #{pfile,jdbcType=VARCHAR},
       </if>
       <if test="hits != null">
-        #{hits,jdbcType=VARCHAR},
+        #{hits,jdbcType=INTEGER},
       </if>
       <if test="goodnum != null">
         #{goodnum,jdbcType=INTEGER},
@@ -247,7 +247,7 @@
         pfile = #{record.pfile,jdbcType=VARCHAR},
       </if>
       <if test="record.hits != null">
-        hits = #{record.hits,jdbcType=VARCHAR},
+        hits = #{record.hits,jdbcType=INTEGER},
       </if>
       <if test="record.goodnum != null">
         goodnum = #{record.goodnum,jdbcType=INTEGER},
@@ -270,7 +270,7 @@
       uid = #{record.uid,jdbcType=INTEGER},
       pcontent = #{record.pcontent,jdbcType=VARCHAR},
       pfile = #{record.pfile,jdbcType=VARCHAR},
-      hits = #{record.hits,jdbcType=VARCHAR},
+      hits = #{record.hits,jdbcType=INTEGER},
       goodnum = #{record.goodnum,jdbcType=INTEGER},
       badnum = #{record.badnum,jdbcType=INTEGER},
       pdate = #{record.pdate,jdbcType=VARCHAR}
@@ -294,7 +294,7 @@
         pfile = #{pfile,jdbcType=VARCHAR},
       </if>
       <if test="hits != null">
-        hits = #{hits,jdbcType=VARCHAR},
+        hits = #{hits,jdbcType=INTEGER},
       </if>
       <if test="goodnum != null">
         goodnum = #{goodnum,jdbcType=INTEGER},
@@ -314,7 +314,7 @@
       uid = #{uid,jdbcType=INTEGER},
       pcontent = #{pcontent,jdbcType=VARCHAR},
       pfile = #{pfile,jdbcType=VARCHAR},
-      hits = #{hits,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=INTEGER},
       goodnum = #{goodnum,jdbcType=INTEGER},
       badnum = #{badnum,jdbcType=INTEGER},
       pdate = #{pdate,jdbcType=VARCHAR}

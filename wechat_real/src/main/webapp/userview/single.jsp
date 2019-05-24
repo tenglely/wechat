@@ -120,7 +120,7 @@
 		   	   		</ul>
 		   	   	</li>
 		   	    <div class="but">
-			       <a href="#">更多讨论<i class="but_arrow"> </i></a>
+			       <a href="${APP_PATH}/userview/userpost.jsp">更多讨论<i class="but_arrow"> </i></a>
 			    </div>
 		   	   </ul>
 		   	</div>
@@ -170,16 +170,14 @@
 					  	 <input type="hidden" name="uid" value="<%=user.getUid()%>">
 					  	 <input type="hidden" name="ctype" value="greens">
 					  	 <input type="hidden" name="typeid" value="<%=g%>">
-						 <script id="editor" type="text/plain"
-		                style="width:596px;height:200px;"></script>
-		                 <input type="submit" value="添加评论" class="btn btn-primary">	
+						 <label style="margin-left: 40px;"><textarea rows="5" cols="50" name="editorValue" placeholder="写下你的评论"></textarea></label><br>
+		                 <label style="margin-left: 430px;"><input type="submit" value="添加评论" class="btn btn-primary"></label>	
+					  	 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					  </form>
 	                <% } %>
 					</div>
 			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-			      </div>
+			      
 			    </div>
 			  </div>
 			</div>
@@ -220,7 +218,8 @@
 	  					  .attr("src","${APP_PATH}/image/"+item.user.purl);
 						var tt=$("<label></label>").append(t)
 						   .append("&nbsp;<span style='font-size:15px'>"+item.user.uname+"</span>");
-						$("<tr></tr>").append($("<td></td>").append(tt)).appendTo("#seetable");
+						var a2=$("<a></a>").attr("href","${APP_PATH}/userview/attuser.jsp?nid="+item.user.uid).append(tt).addClass("a1");
+						$("<tr></tr>").append($("<td></td>").append(a2)).appendTo("#seetable");
 						var comment=$("<td></td>").append(item.comment).css("font-size","18px");
 						$("<tr></tr>").append(comment).appendTo("#seetable");
 						$("<tr></tr>").append($("<td></td>").addClass("td_c").append(item.cdate).attr("align","right").css("font-size","10px")).appendTo("#seetable");
@@ -305,7 +304,7 @@
 									.append($("<img></img>").addClass("img-responsive")
 									.attr("src","${APP_PATH}/image/"+item.pfile));
 							var l2=$("<li></li>").addClass("review1_desc").append($("<h3></h3>")
-									.append($("<a></a>").append(item.title))).append($("<p></p>")
+									.append($("<a></a>").attr("href","${APP_PATH}/userview/seeonepost.jsp?pid="+item.pid).append(item.title))).append($("<p></p>")
 											.append(item.pdate));
 							$("#u1").append(l1).append(l2).append($("<div></div>").addClass("clearfix"));
 						}	
@@ -314,7 +313,7 @@
 									.append($("<img></img>").addClass("img-responsive")
 									.attr("src","${APP_PATH}/image/"+item.pfile));
 							var l2=$("<li></li>").addClass("review1_desc").append($("<h3></h3>")
-									.append($("<a></a>").append(item.title))).append($("<p></p>")
+									.append($("<a></a>").attr("href","${APP_PATH}/userview/seeonepost.jsp?pid="+item.pid).append(item.title))).append($("<p></p>")
 											.append(item.pdate));
 							$("#u2").append(l1).append(l2).append($("<div></div>").addClass("clearfix"));
 						}		
@@ -323,7 +322,7 @@
 									.append($("<img></img>").addClass("img-responsive")
 									.attr("src","${APP_PATH}/image/"+item.pfile));
 							var l2=$("<li></li>").addClass("review1_desc").append($("<h3></h3>")
-									.append($("<a></a>").append(item.title))).append($("<p></p>")
+									.append($("<a></a>").attr("href","${APP_PATH}/userview/seeonepost.jsp?pid="+item.pid).append(item.title))).append($("<p></p>")
 											.append(item.pdate));
 							$("#u3").append(l1).append(l2).append($("<div></div>").addClass("clearfix"));
 						}	

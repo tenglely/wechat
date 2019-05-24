@@ -118,6 +118,11 @@ public class AttentionExample {
             addCriterion("aid =", value, "aid");
             return (Criteria) this;
         }
+        
+        public Criteria andTypeEqualTo(String value) {
+            addCriterion("type =", value, "type");
+            return (Criteria) this;
+        }
 
         public Criteria andAidNotEqualTo(Integer value) {
             addCriterion("aid <>", value, "aid");

@@ -5,6 +5,8 @@
     <id column="aid" jdbcType="INTEGER" property="aid" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="nid" jdbcType="INTEGER" property="nid" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="adate" jdbcType="VARCHAR" property="adate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    aid, uid, nid
+    aid, uid, nid,type,adate
   </sql>
   <select id="selectByExample" parameterType="com.wechat.bean.AttentionExample" resultMap="BaseResultMap">
     select
@@ -98,9 +100,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wechat.bean.Attention">
-    insert into attention (aid, uid, nid
+    insert into attention (aid, uid, nid,type,adate
       )
-    values (#{aid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{nid,jdbcType=INTEGER}
+    values (#{aid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{nid,jdbcType=INTEGER} , #{type,jdbcType=VARCHAR}, #{adate,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wechat.bean.Attention">
@@ -115,6 +117,12 @@
       <if test="nid != null">
         nid,
       </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="adate != null">
+        adate,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="aid != null">
@@ -125,6 +133,12 @@
       </if>
       <if test="nid != null">
         #{nid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="adate != null">
+        #{adate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -146,6 +160,12 @@
       <if test="record.nid != null">
         nid = #{record.nid,jdbcType=INTEGER},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="adate != null">
+        #{adate,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -155,7 +175,9 @@
     update attention
     set aid = #{record.aid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
-      nid = #{record.nid,jdbcType=INTEGER}
+      nid = #{record.nid,jdbcType=INTEGER},
+      type=  #{type,jdbcType=VARCHAR},
+      adate=  #{adate,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -169,13 +191,21 @@
       <if test="nid != null">
         nid = #{nid,jdbcType=INTEGER},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="adate != null">
+        #{adate,jdbcType=VARCHAR},
+      </if>
     </set>
     where aid = #{aid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wechat.bean.Attention">
     update attention
     set uid = #{uid,jdbcType=INTEGER},
-      nid = #{nid,jdbcType=INTEGER}
+      nid = #{nid,jdbcType=INTEGER},
+      type=#{type,jdbcType=VARCHAR},
+      adate=#{adate,jdbcType=VARCHAR}
     where aid = #{aid,jdbcType=INTEGER}
   </update>
 </mapper>

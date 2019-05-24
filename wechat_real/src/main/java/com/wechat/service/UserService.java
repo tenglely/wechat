@@ -4,6 +4,8 @@ import com.wechat.bean.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.wechat.bean.UserExample.Criteria;
+import com.wechat.bean.Attention;
+import com.wechat.bean.AttentionExample;
 import com.wechat.bean.User;
 import com.wechat.dao.UserMapper;
 
@@ -139,5 +141,6 @@ public class UserService {
 		List<User> list=userMapper.selectByExample(userExample);
 		return list;
 	}
+
 	
 }

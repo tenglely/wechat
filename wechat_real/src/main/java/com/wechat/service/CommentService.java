@@ -59,6 +59,7 @@ public class CommentService {
      */
     public List<Comment> findAllByUid(Integer cuid) {
         CommentExample commentExample=new CommentExample();
+        commentExample.setOrderByClause("cid DESC");
         Criteria criteria=commentExample.createCriteria();
         criteria.andUidEqualTo(cuid);
         return commentMapper.selectByExample(commentExample);

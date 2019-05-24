@@ -52,6 +52,7 @@ public class PostService {
      */
     public List<Post> getPostByUid(Integer uids) {
         PostExample postExample=new PostExample();
+        postExample.setOrderByClause("pid DESC");
         Criteria criteria=postExample.createCriteria();
         criteria.andUidEqualTo(uids);
         return postMapper.selectByExample(postExample);

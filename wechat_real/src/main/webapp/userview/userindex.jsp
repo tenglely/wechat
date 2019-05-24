@@ -22,6 +22,9 @@
 	.p1{
 		font-size: 16px;
 	}
+	.pp{
+		font-size: 16px;
+	}
 </style>
 </head>
 <body>
@@ -84,7 +87,7 @@
 		   	   		</ul>
 		   	   	</li>
 		   	    <div class="but">
-			       <a href="#">更多讨论<i class="but_arrow"> </i></a>
+			       <a href="${APP_PATH}/userview/userpost.jsp">更多讨论<i class="but_arrow"> </i></a>
 			    </div>
 		   	   </ul>
 		   	   
@@ -96,36 +99,18 @@
 		   	   </ul>
 		   	   <ul class="feature_grid">
 				 <li class="grid1"><img src="images/f1.jpg" class="img-responsive" alt=""/>
-				 	<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed</p>
-				 	<div class="price">Price:
-					  <span class="actual">$12.00</span>
-					</div>
-				    <div class="but1">
-			          <a href="#">Buy Now</a>
-			        </div>
+				 	<p class="pp">夏季节令美食，等你来发现</p>
 				 </li>		   	   	
 				 <li class="grid1"><img src="images/f2.jpg" class="img-responsive" alt=""/>
-				 	<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed</p>
-				 	<div class="price">Price:
-					  <span class="actual">$12.00</span>
-					</div>
-				    <div class="but1">
-			          <a href="#">Buy Now</a>
-			        </div>
+				 	<p class="pp">厨娘小菜谱，我的个人菜谱</p>
 				 </li>		   	
 				 <li class="grid2"><img src="images/f3.jpg" class="img-responsive" alt=""/>
-				 	<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed</p>
-				 	<div class="price">Price:
-					  <span class="actual">$12.00</span>
-					</div>
-				    <div class="but1">
-			          <a href="#">Buy Now</a>
-			        </div>
+				 	<p class="pp">美食猎人:寻找世界的美食</p>
 				 </li>		   	
 				 <div class="clearfix"> </div>
 		   	   </ul>
 		   	    <ul class="feature">
-		   	   	 <h3><a id="new"><i class="arrow"></i><span>智能推荐</span></a></h3>
+		   	   	 <h3><a id="new" title="刷新"><i class="arrow"></i><span>每日推荐</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-repeat" aria-hidden="true" style="font-size: 18px;"></span></a></h3>
 		   	   </ul>
 		   	   <div class="row content_bottom" id="one">
 			   	   
@@ -219,7 +204,7 @@
 									.append($("<img></img>").addClass("img-responsive")
 									.attr("src","${APP_PATH}/image/"+item.pfile));
 							var l2=$("<li></li>").addClass("review1_desc").append($("<h3></h3>")
-									.append($("<a></a>").append(item.title))).append($("<p></p>")
+									.append($("<a></a>").attr("href","${APP_PATH}/userview/seeonepost.jsp?pid="+item.pid).append(item.title))).append($("<p></p>")
 											.append(item.pdate));
 							$("#u1").append(l1).append(l2).append($("<div></div>").addClass("clearfix"));
 						}	
@@ -228,7 +213,7 @@
 									.append($("<img></img>").addClass("img-responsive")
 									.attr("src","${APP_PATH}/image/"+item.pfile));
 							var l2=$("<li></li>").addClass("review1_desc").append($("<h3></h3>")
-									.append($("<a></a>").append(item.title))).append($("<p></p>")
+									.append($("<a></a>").attr("href","${APP_PATH}/userview/seeonepost.jsp?pid="+item.pid).append(item.title))).append($("<p></p>")
 											.append(item.pdate));
 							$("#u2").append(l1).append(l2).append($("<div></div>").addClass("clearfix"));
 						}		
@@ -237,7 +222,7 @@
 									.append($("<img></img>").addClass("img-responsive")
 									.attr("src","${APP_PATH}/image/"+item.pfile));
 							var l2=$("<li></li>").addClass("review1_desc").append($("<h3></h3>")
-									.append($("<a></a>").append(item.title))).append($("<p></p>")
+									.append($("<a></a>").attr("href","${APP_PATH}/userview/seeonepost.jsp?pid="+item.pid).append(item.title))).append($("<p></p>")
 											.append(item.pdate));
 							$("#u3").append(l1).append(l2).append($("<div></div>").addClass("clearfix"));
 						}	

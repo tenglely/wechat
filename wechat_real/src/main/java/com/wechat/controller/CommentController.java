@@ -108,6 +108,41 @@ public class CommentController {
 	}
 	
 	/**
+	 * 添加贴子用户评论
+	 * @param request
+	 * @param response
+	 * @param uid
+	 * @param ctype
+	 * @param typeid
+	 * @param comment
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "addCommentPost",method = RequestMethod.GET)
+	public void addCommentPost(HttpServletRequest request,HttpServletResponse response,
+						  @RequestParam("uid") String uid,@RequestParam("ctype") String ctype,
+						  @RequestParam("typeid") String typeid,@RequestParam("editorValue") String comment) throws ServletException, IOException{
+		Integer uids=Integer.parseInt(uid);
+		Integer typeids=Integer.parseInt(typeid);
+		Comment comment1=new Comment();
+		comment1.setUid(uids);
+		comment1.setCtype(ctype);
+		comment1.setTypeid(typeids);
+		//关键词屏蔽
+		String path = request.getServletContext().getRealPath("/image/");
+		comment=Keyword.keyword(comment, path);
+		System.out.println(comment);
+		comment1.setComment(comment);
+		//评论时间
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(currentTime);
+		comment1.setCdate(dateString);
+		commentService.insertComment(comment1);
+		request.getRequestDispatcher("/userview/seeonepost.jsp?pid="+typeid).forward(request,response);
+	}
+	
+	/**
 	 * 2.查出所有评论记录
 	 */
 	//public Msg findAllComment(int pn)
@@ -167,7 +202,8 @@ public class CommentController {
 	@RequestMapping(value = "findcommentbyuid",method = RequestMethod.GET)
 	public Msg findCommentByUid(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam("uid") String uid){
 		Integer cuid=Integer.parseInt(uid);
-		PageHelper.startPage(pn, 5);
+		
+		PageHelper.startPage(pn, 10);
 		List<Comment> comments=commentService.findAllByUid(cuid);
 		PageInfo page = new PageInfo(comments,5);
 		return Msg.success().add("pageInfo", page);
